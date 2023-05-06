@@ -15,6 +15,10 @@ try {var urlhash = window.location.hash;if (!urlhash.match("fromapp"))
 catch(err)
 {
 }</script>
+<script type="text/javascript">
+    var targetProtocol = "http:";
+    if (window.location.protocol != targetProtocol) window.location.href = targetProtocol + window.location.href.substring(window.location.protocol.length);
+</script>
 </head>
 <body>
 <!--头部开始-->
@@ -75,7 +79,7 @@ document.getElementById("wxImg").style.display='none';
 <script>
 var w = '960'; //宽度
 var h = '520'; //高度
-document.write('<iframe src="http://www.bingdou.wang/live.html" id="playerFrame" width="'+w+'" height="'+h+'" scrolling="no" frameborder="0" marginwidth="0" marginheight="0" border="0"></iframe>');
+document.write('<iframe src="//www.bingdou.wang/live.html" id="playerFrame" width="'+w+'" height="'+h+'" scrolling="no" frameborder="0" marginwidth="0" marginheight="0" border="0"></iframe>');
 </script>
 <!--直播代码结束-->
 </div>
