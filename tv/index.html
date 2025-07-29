@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>电视直播 - 冰豆直播</title>
+    <meta name="Keywords" content="卫视直播,影视直播,电台直播,电视直播,在线直播,央视直播">
+    <meta name="description" content="集多家电视直播、影视直播于一体的综合直播网站，能够在线收看电视台直播、电影直播，播放流畅、完全免费!">
+    <link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header>
+    <div class="header wrap">
+        <h1 class="logo"><a href="/" title="冰豆直播"><i class="fa fa-video-camera"></i>冰豆直播</a></h1>
+        <div class="menu">
+            <div class="menu-icon"></div>
+            <div class="menu-container" id="menu"></div>
+        </div>
+    </div>
+</header>
+<main class="wrap">
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3 id="currentChannel">正在加载频道...</h3>
+        </div>
+        <div class="list-w list-box" style="margin-bottom:20px;margin-right:0">
+            <div id="playbox"></div>
+        </div>
+    </section>
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3>直播分类</h3>
+        </div>
+        <div class="list-w list-box playlist">
+            <li><a href="./list/?id=zhongyang" target="_blank" title="中央频道">中央频道</a></li>
+            <li><a href="./list/?id=weishi" target="_blank" title="卫视频道">卫视频道</a></li>
+            <li><a href="./list/?id=difang" target="_blank" title="地方频道">地方频道</a></li>
+        </div>
+    </section>
+    <section class="list wrap-inner" id="zhongyangList">
+        <div class="list-header">
+            <h3>中央频道</h3>
+        </div>
+        <div class="list-w list-box playlist loading">加载中...</div>
+    </section>
+    <section class="list wrap-inner" id="weishiList">
+        <div class="list-header">
+            <h3>卫视频道</h3>
+        </div>
+        <div class="list-w list-box playlist loading">加载中...</div>
+    </section>
+    <section class="list wrap-inner" id="difangList">
+        <div class="list-header">
+            <h3>地方频道</h3>
+        </div>
+        <div class="list-w list-box playlist loading">加载中...</div>
+    </section>
+</main>
+<footer id="foot"></footer>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$('#menu').load('../menu.html');
+$('#foot').load('../foot.html');
+</script>
+<script>
+// 安全HTML编码
+const escapeHTML = str => str.replace(/&/g, '&amp;')
+                           .replace(/</g, '&lt;')
+                           .replace(/>/g, '&gt;')
+                           .replace(/"/g, '&quot;')
+                           .replace(/'/g, '&#039;');
+
+// 初始化播放器
+function utf8ToB64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function initPlayer(m3u8Url) {
+    const encodedUrl = utf8ToB64(m3u8Url); // 支持中文等字符的 Base64 编码
+    const iframe = document.createElement('iframe');
+    iframe.allowFullscreen = true;
+    iframe.frameBorder = 'no';
+    iframe.style.height = '100%';
+    iframe.style.width = '100%';
+    iframe.scrolling = 'no';
+    iframe.src = `https://player.misidao.cn/base64/live/?url=${encodedUrl}`;
+    
+    const container = document.getElementById('playbox');
+    container.innerHTML = '';
+    container.appendChild(iframe);
+}
+
+// 加载频道列表
+async function loadChannelList(category, containerId) {
+    try {
+        const response = await fetch(`https://json.bingdou.cc/tv/list/?id=${category}`);
+        const data = await response.json();
+        
+        const container = document.querySelector(`#${containerId} .playlist`);
+        if (!data?.data?.list?.length) {
+            container.innerHTML = '<div class="error">暂无频道数据</div>';
+            return;
+        }
+
+        const listItems = data.data.list.map(item => `
+            <li>
+                <a href="./player/?id=${encodeURIComponent(item.id)}" 
+                   title="${escapeHTML(item.name)}" 
+                   target="_blank">
+                    ${escapeHTML(item.name)}
+                </a>
+            </li>
+        `).join('');
+
+        container.classList.remove('loading');
+        container.innerHTML = listItems;
+    } catch (error) {
+        console.error(`加载${category}失败:`, error);
+        document.querySelector(`#${containerId} .playlist`).innerHTML = 
+            '<div class="error">频道加载失败</div>';
+    }
+}
+
+// 加载当前播放频道
+async function loadCurrentChannel() {
+    try {
+        const response = await fetch('https://json.bingdou.cc/tv/?id=cctv13');
+        const data = await response.json();
+        
+        if (data?.data?.list?.[0]?.play_url) {
+            document.getElementById('currentChannel').textContent = 
+                `正在播放-${escapeHTML(data.name)}`;
+            initPlayer(data.data.list[0].play_url);
+        } else {
+            throw new Error('无效的频道数据');
+        }
+    } catch (error) {
+        console.error('加载频道失败:', error);
+        document.getElementById('currentChannel').textContent = '频道加载失败';
+    }
+}
+
+// 初始化页面
+async function initPage() {
+    // 加载当前播放
+    await loadCurrentChannel();
+    
+    // 并行加载频道列表
+    Promise.all([
+        loadChannelList('zhongyang', 'zhongyangList'),
+        loadChannelList('weishi', 'weishiList'),
+        loadChannelList('difang', 'difangList')
+    ]);
+}
+
+// 启动加载
+window.addEventListener('DOMContentLoaded', initPage);
+</script>
+</body>
+</html>

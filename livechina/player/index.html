@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>直播中国 - 冰豆直播</title>
+    <meta name="Keywords" content="直播中国,慢直播,城市,风景,文化" />
+    <meta name="description" content="展现美丽中国、城市地标、中国村庄、魅力小镇、一带一路等于一体,运用5G+4K+AI技术" />
+    <link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+    <header>
+        <div class="header wrap">
+            <h1 class="logo"><a href="/" title="冰豆直播"><i class="fa fa-video-camera"></i>冰豆直播</a></h1>
+            <div class="menu">
+                <div class="menu-icon"></div>
+                <div class="menu-container" id="menu"></div>
+            </div>
+        </div>
+    </header>
+    <main class="wrap">
+        <section class="list wrap-inner">
+            <div class="list-header">
+                <h3 id="playingTitle">正在加载...</h3>
+            </div>
+            <div class="list-w list-box" style="margin-bottom:20px;margin-right:0">
+                <iframe name="player" id="playbox" allowfullscreen="true" frameborder="no" 
+                        height="500" width="100%" scrolling="no"></iframe>
+            </div>
+        </section>
+        <section class="list wrap-inner">
+            <div class="list-header">
+                <h3>播放线路</h3>
+            </div>
+            <div class="list-w list-box playlist" id="playlist">
+                <p>正在加载线路...</p>
+            </div>
+        </section>
+        <section class="list wrap-inner">
+            <div class="list-header">
+                <h3>直播简介</h3>
+            </div>
+            <div class="list-text-box">
+                <p id="liveDescription">加载中...</p>
+            </div>
+        </section>
+        <section class="list wrap-inner">
+            <div class="list-header">
+                <h3>免责声明</h3>
+            </div>
+            <div class="list-text-box">
+                <p>本站所有内容均自动搜索链接于互联网第三方网站页面，并不存储任何视频、音频资源。因此经由本站搜索所产生的任何结果皆不代表本站立场，本站不对其真实合法性以及版权负责，亦不承担任何法律责任。本站所有接口皆源于互联网，仅供学习交流。</p>
+            </div>
+        </section>
+    </main>
+<footer id="foot"></footer>
+<script>
+$('#menu').load('../../menu.html');
+$('#foot').load('../../foot.html');
+</script>
+    <script>
+        // URL参数处理
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoId = urlParams.get('id');
+
+        // Base64安全编码
+        function safeBase64(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, 
+                (match, p1) => String.fromCharCode('0x' + p1)));
+        }
+
+        // 初始化加载
+        if (!videoId) {
+            showError('缺少视频ID参数');
+        } else {
+            loadVideoData(videoId);
+        }
+
+        async function loadVideoData(id) {
+            try {
+                const response = await fetch(`https://json.bingdou.cc/livechina/?id=${id}`);
+                if (!response.ok) throw new Error('网络响应异常');
+                
+                const data = await response.json();
+                if (!data?.data?.length) throw new Error('无有效直播数据');
+
+                updatePageContent(data);
+                initPlayer(data.data[0].url);
+                createPlaylist(data.data);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        // 更新页面内容
+        function updatePageContent(data) {
+            // 标题处理
+            document.title = `${data.title} - 直播中国 - 冰豆直播`;
+            document.querySelector('meta[name="Keywords"]').content = 
+                `${data.title},直播中国,慢直播,城市,风景,文化`;
+            
+            // 播放标题
+            document.getElementById('playingTitle').textContent = `正在播放 - ${data.title}`;
+            
+            // 简介处理
+            document.getElementById('liveDescription').textContent = 
+                data.description || '暂无直播简介';
+        }
+
+        // 初始化播放器
+        function initPlayer(url) {
+            const encodedUrl = safeBase64(url);
+            document.getElementById('playbox').src = 
+                `https://player.misidao.cn/base64/live/?url=${encodedUrl}`;
+        }
+
+        // 创建播放列表
+        function createPlaylist(streams) {
+            const playlist = document.getElementById('playlist');
+            playlist.innerHTML = ''; // 清空加载状态
+
+            streams.forEach((stream, index) => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                
+                link.textContent = stream.title;
+                link.href = '#';
+                link.dataset.url = stream.url;
+                link.dataset.index = index + 1;
+                
+                // 高亮首项
+                if (index === 0) {
+                    link.style.color = 'red';
+                }
+
+                // 点击事件处理
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchStream(stream.url, index + 1);
+                });
+
+                listItem.appendChild(link);
+                playlist.appendChild(listItem);
+            });
+        }
+
+        // 切换播放源
+        let currentActiveIndex = 1;
+        function switchStream(url, index) {
+            if (currentActiveIndex === index) return;
+
+            // 更新播放器
+            const encodedUrl = safeBase64(url);
+            document.getElementById('playbox').src = 
+                `https://player.misidao.cn/base64/live/?url=${encodedUrl}`;
+
+            // 更新样式
+            const prevLink = document.querySelector(`[data-index="${currentActiveIndex}"]`);
+            const newLink = document.querySelector(`[data-index="${index}"]`);
+            
+            if (prevLink) prevLink.style.color = '';
+            if (newLink) newLink.style.color = 'red';
+            
+            currentActiveIndex = index;
+        }
+
+        // 错误处理
+        function showError(message) {
+            document.getElementById('playingTitle').textContent = '加载失败';
+            document.getElementById('playlist').innerHTML = 
+                `<p style="color:red">${message}</p>`;
+            document.getElementById('playbox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

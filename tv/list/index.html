@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>电视直播 - 冰豆直播</title>
+    <meta name="Keywords" content="卫视直播,影视直播,电台直播,电视直播,在线直播,央视直播">
+    <meta name="description" content="集多家电视直播、影视直播于一体的综合直播网站，能够在线收看电视台直播、电影直播，播放流畅、完全免费!">
+    <link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header>
+    <div class="header wrap">
+        <h1 class="logo"><a href="/" title="冰豆直播"><i class="fa fa-video-camera"></i>冰豆直播</a></h1>
+        <div class="menu">
+            <div class="menu-icon"></div>
+            <div class="menu-container" id="menu"></div>
+        </div>
+    </div>
+</header>
+<main class="wrap">
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3 id="categoryTitle">加载中...</h3>
+        </div>
+        <div class="list-w list-box playlist" id="channelList">
+            <div class="loading">正在加载频道列表...</div>
+        </div>
+    </section>
+</main>
+<footer id="foot"></footer>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$('#menu').load('../../menu.html');
+$('#foot').load('../../foot.html');
+</script>
+<script>
+// 安全HTML编码函数
+const escapeHTML = str => {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;')
+             .replace(/</g, '&lt;')
+             .replace(/>/g, '&gt;')
+             .replace(/"/g, '&quot;')
+             .replace(/'/g, '&#039;');
+};
+
+// URL参数解析
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+// 加载频道数据
+async function loadChannels() {
+    const categoryId = getQueryParam('id');
+    if (!categoryId) {
+        showError('缺少分类参数');
+        return;
+    }
+
+    try {
+        // 显示加载状态
+        document.getElementById('categoryTitle').textContent = '加载中...';
+        document.getElementById('channelList').innerHTML = '<div class="loading">正在加载频道列表...</div>';
+
+        // 获取数据
+        const response = await fetch(`https://json.bingdou.cc/tv/list/?id=${encodeURIComponent(categoryId)}`);
+        const data = await response.json();
+
+        // 处理数据
+        if (!data?.data?.list || !Array.isArray(data.data.list)) {
+            throw new Error('无效的频道数据');
+        }
+
+        // 更新页面信息
+        document.title = `${escapeHTML(data.name)} - 电视直播 - 冰豆直播`;
+        document.getElementById('categoryTitle').textContent = escapeHTML(data.name);
+
+        // 生成频道列表
+        renderChannelList(data.data.list);
+
+    } catch (error) {
+        showError('数据加载失败，请稍后重试');
+        console.error('加载失败:', error);
+    }
+}
+
+// 渲染频道列表
+function renderChannelList(channels) {
+    const container = document.getElementById('channelList');
+    container.innerHTML = ''; // 清空加载提示
+
+    const fragment = document.createDocumentFragment();
+    
+    channels.forEach(channel => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <a href="../player/?id=${encodeURIComponent(channel.id)}" 
+               title="${escapeHTML(channel.name)}" 
+               target="_blank"
+               class="channel-link">
+                ${escapeHTML(channel.name)}
+            </a>
+        `;
+        fragment.appendChild(li);
+    });
+
+    container.appendChild(fragment);
+}
+
+// 显示错误信息
+function showError(message) {
+    const container = document.getElementById('channelList');
+    container.innerHTML = `<div class="error">${message}</div>`;
+    document.getElementById('categoryTitle').textContent = '加载出错';
+}
+
+// 页面初始化
+window.addEventListener('DOMContentLoaded', loadChannels);
+</script>
+
+<style>
+/* 加载状态样式 */
+.loading, .error {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+}
+
+.channel-link {
+    display: block;
+    padding: 12px 15px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.channel-link:hover {
+    background-color: #f5f5f5;
+    color: #007bff;
+    text-decoration: none;
+}
+</style>
+</body>
+</html>

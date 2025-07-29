@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>电视直播 - 冰豆直播</title>
+    <meta name="Keywords" content="卫视直播,影视直播,电台直播,电视直播,在线直播,央视直播">
+    <meta name="description" content="集多家电视直播、影视直播于一体的综合直播网站，能够在线收看电视台直播、电影直播，播放流畅、完全免费!">
+    <link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header>
+    <div class="header wrap">
+        <h1 class="logo"><a href="/" title="冰豆直播"><i class="fa fa-video-camera"></i>冰豆直播</a></h1>
+        <div class="menu">
+            <div class="menu-icon"></div>
+            <div class="menu-container" id="menu"></div>
+        </div>
+    </div>
+</header>
+<main class="wrap">
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3 id="channelTitle">正在加载频道...</h3>
+        </div>
+        <div class="list-w list-box" style="margin-bottom:20px;margin-right:0">
+            <iframe name="player" id="playbox" allowfullscreen="true" frameborder="no" height="100%" width="100%" scrolling="no"></iframe>
+        </div>
+    </section>
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3>播放线路</h3>
+        </div>
+        <div class="list-w list-box playlist" id="lineList">
+            <div class="loading">正在加载播放线路...</div>
+        </div>
+    </section>
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3>免责声明</h3>
+        </div>
+        <div class="list-text-box">
+            <p>　　本站所有内容均自动搜索链接于互联网第三方网站页面，并不存储任何视频、音频资源。因此经由本站搜索所产生的任何结果皆不代表本站立场，本站不对其真实合法性以及版权负责，亦不承担任何法律责任。本站所有接口皆源于互联网，仅供学习交流。</p>
+        </div>
+    </section>
+</main>
+<footer id="foot"></footer>
+<script>
+$('#menu').load('../../menu.html');
+$('#foot').load('../../foot.html');
+</script>
+<script>
+// HTML 转义函数
+const escapeHTML = str => str.replace(/&/g, '&amp;')
+                           .replace(/</g, '&lt;')
+                           .replace(/>/g, '&gt;')
+                           .replace(/"/g, '&quot;')
+                           .replace(/'/g, '&#039;');
+
+// 获取URL参数
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+// UTF-8 安全的 Base64 编码和解码函数
+function utf8ToBase64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function base64ToUtf8(b64) {
+    return decodeURIComponent(escape(atob(b64)));
+}
+
+// 初始化播放器
+function initPlayer(url) {
+    const encodedUrl = utf8ToBase64(url); // 使用标准 Base64 编码
+    const iframe = document.getElementById('playbox');
+    iframe.src = `https://player.misidao.cn/base64/live/?url=${encodedUrl}`;
+}
+
+// 加载频道数据
+async function loadChannelData() {
+    const channelId = getQueryParam('id');
+    if (!channelId) {
+        showError('缺少频道ID参数');
+        return;
+    }
+
+    try {
+        // 获取频道数据
+        const response = await fetch(`https://json.bingdou.cc/tv/?id=${channelId}`);
+        const data = await response.json();
+
+        if (!data?.data?.list?.length) {
+            throw new Error('无效的频道数据');
+        }
+
+        // 更新页面信息
+        document.title = `${escapeHTML(data.name)} - 电视直播 - 冰豆直播`;
+        document.querySelector('meta[name="Keywords"]').content = 
+            `${escapeHTML(data.name)},卫视直播,影视直播,电台直播,电视直播,在线直播,央视直播`;
+        document.getElementById('channelTitle').textContent = 
+            `正在播放-${escapeHTML(data.name)}`;
+
+        // 初始化播放器
+        initPlayer(data.data.list[0].play_url);
+
+        // 生成线路列表
+        generateLineList(data.data.list);
+
+    } catch (error) {
+        showError('频道加载失败，请稍后重试');
+        console.error('加载失败:', error);
+    }
+}
+
+// 生成线路列表
+function generateLineList(list) {
+    const container = document.getElementById('lineList');
+    container.innerHTML = '';
+    
+    list.forEach((item, index) => {
+        const id = index + 1;
+        const li = document.createElement('li');
+        const encodedUrl = utf8ToBase64(item.play_url); // 使用标准 Base64 编码
+        li.innerHTML = `
+            <a href="https://player.misidao.cn/base64/live/?url=${encodedUrl}" 
+               title="${escapeHTML(item.line)}" 
+               target="player"
+               data-id="${id}"
+               class="${id === 1 ? 'active' : ''}">
+                ${escapeHTML(item.line)}
+            </a>
+        `;
+        container.appendChild(li);
+    });
+
+    // 添加点击事件
+    container.addEventListener('click', function(e) {
+        const target = e.target.closest('a');
+        if (!target) return;
+
+        const href = target.getAttribute('href');
+        const urlMatch = href.match(/[?&]url=([^&]+)/);
+        if (!urlMatch || !urlMatch[1]) return;
+
+        const encodedUrl = urlMatch[1];
+        let decodedUrl;
+        try {
+            decodedUrl = base64ToUtf8(encodedUrl); // 使用 Base64 解码
+        } catch (e) {
+            console.error("解码失败");
+            return;
+        }
+
+        // 更新播放器
+        initPlayer(decodedUrl);
+    });
+}
+
+// 显示错误信息
+function showError(message) {
+    document.getElementById('channelTitle').textContent = message;
+    document.getElementById('lineList').innerHTML = 
+        `<div class="error">${message}</div>`;
+}
+
+// 页面初始化
+window.addEventListener('DOMContentLoaded', loadChannelData);
+</script>
+
+<style>
+/* 线路高亮样式 */
+#lineList a.active {
+    color: red !important;
+}
+#lineList a:hover {
+    color: orange !important;
+}
+.loading, .error {
+    padding: 15px;
+    text-align: center;
+    color: #666;
+}
+</style>
+</body>
+</html>

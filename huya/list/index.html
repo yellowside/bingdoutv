@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>聚合直播 - 冰豆直播</title>
+<meta name="Keywords" content="游戏直播,赛事直播,美女直播,户外直播,视频直播" />
+<meta name="description" content="提供热门游戏直播、电竞赛事直播与游戏赛事直播，手游直播等。" />
+<link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+<link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header>
+  <div class="header wrap">
+  <h1 class="logo"><a href="/" title="冰豆直播"><i class="fa fa-video-camera"></i>冰豆直播</a></h1>
+  <div class="menu">
+    <div class="menu-icon"></div>
+    <div class="menu-container" id="menu"></div>
+  </div>
+</div>
+</header>
+<main class="wrap">
+  <section class="list wrap-inner">
+    <div class="list-header">
+      <h3 id="page-title">加载中...</h3>
+    </div>
+    <div class="list-w list-box playlist" id="playlist-container">
+        <p>正在加载节目单...</p>
+      </div>
+  </section>
+</main>
+<footer id="foot"></footer>
+<script type="text/javascript" src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$('#menu').load('../../menu.html');
+$('#foot').load('../../foot.html');
+</script>
+<script>
+    // 获取 URL 中的 id 和 name 参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoid = urlParams.get('id');
+    const name = urlParams.get('name');
+
+    // 设置页面标题
+    document.title = (name ? `${name} - ` : '') + '聚合直播 - 冰豆直播';
+    document.getElementById('page-title').innerText = name || '未知分类';
+
+    if (!videoid) {
+      document.getElementById('playlist-container').innerHTML = '<p>请传入有效的直播分类 ID。</p>';
+      throw new Error("缺少参数：id");
+    }
+
+    const apiUrl = `https://json.bingdou.cc/huya/list/?id=${videoid}`;
+
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`网络响应失败：${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (!data || !data.data || !data.data.datas || !Array.isArray(data.data.datas)) {
+          document.getElementById('playlist-container').innerHTML = '<p>没有找到节目单数据。</p>';
+          return;
+        }
+
+        const playlistContainer = document.getElementById('playlist-container');
+        playlistContainer.innerHTML = '';
+
+        data.data.datas.forEach((live, index) => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `../player/?id=${live.profileRoom}`;
+          a.title = live.introduction || `直播间 ${index + 1}`;
+          a.target = '_blank';
+          a.textContent = live.introduction || `直播间 ${index + 1}`;
+          li.appendChild(a);
+          playlistContainer.appendChild(li);
+        });
+      })
+      .catch(error => {
+        console.error('加载失败:', error);
+        document.getElementById('playlist-container').innerHTML = `加载播放列表失败`;
+      });
+  </script>
+</body>
+</html>

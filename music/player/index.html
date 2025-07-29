@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>音乐聆听 - 冰豆直播</title>
+    <meta name="Keywords" content="音乐,在线听歌,音乐播放器,音乐网站,排行榜,热门歌曲,经典老歌">
+    <link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+    <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css">
+    <script src="https://player.alicdn.com/resource/base/lib/jquery-1.8.3.min.js"></script>
+    <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script>
+    <script src="https://lib.baomitu.com/Base64/1.3.0/base64.js"></script>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header>
+    <div class="header wrap">
+        <h1 class="logo"><a href="/" title="冰豆直播"><i class="fa fa-video-camera"></i>冰豆直播</a></h1>
+        <div class="menu">
+            <div class="menu-icon"></div>
+            <div class="menu-container" id="menu"></div>
+        </div>
+    </div>
+</header>
+<main class="wrap">
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3 id="musicTitle">正在加载...</h3>
+        </div>
+        <div class="list-w list-box" style="margin-bottom:20px;margin-right:0">
+            <div id="APlayer">
+                <pre class="aplayer-lrc-content" id="lrcContent"></pre>
+            </div>
+        </div>
+    </section>
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3>音乐简介</h3>
+        </div>
+        <div class="list-text-box">
+            <p id="musicDesc">加载中...</p>
+        </div>
+    </section>
+    <section class="list wrap-inner">
+        <div class="list-header">
+            <h3>免责声明</h3>
+        </div>
+        <div class="list-text-box">
+            <p>本站所有内容均自动搜索链接于互联网第三方网站页面，并不存储任何视频、音频资源。因此经由本站搜索所产生的任何结果皆不代表本站立场，本站不对其真实合法性以及版权负责，亦不承担任何法律责任。本站所有接口皆源于互联网，仅供学习交流。</p>
+        </div>
+    </section>
+</main>
+<footer id="foot"></footer>
+<script>
+$('#menu').load('../../menu.html');
+$('#foot').load('../../foot.html');
+</script>
+<script>
+// 解析URL参数
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+// Base64编码处理
+function utf8ToB64(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+        return String.fromCharCode('0x' + p1);
+    }));
+}
+
+// 主执行函数
+async function initPlayer() {
+    const videoid = getQueryParam('id');
+    if (!videoid) {
+        showError('ID 参数缺失');
+        return;
+    }
+
+    try {
+        // 获取音乐数据
+        const musicResponse = await fetch(`https://json.bingdou.cc/music/player/?id=${videoid}`);
+        const musicData = await musicResponse.json();
+        
+        if (!musicData || !musicData.length) {
+            showError('无法解析音乐数据');
+            return;
+        }
+
+        const { url, title, desc, pic, lrc } = musicData[0];
+        
+        // 更新页面信息
+        document.title = `${title} - 音乐聆听 - 冰豆直播`;
+        document.getElementById('musicTitle').textContent = `正在播放-${title}`;
+        document.getElementById('musicDesc').textContent = desc;
+
+        // 获取歌词
+        const lrcResponse = await fetch(lrc);
+        const lrcText = await lrcResponse.text();
+        document.getElementById('lrcContent').textContent = lrcText;
+
+        // 初始化播放器
+        const videoData = utf8ToB64(url);
+        const decodedUrl = decodeURIComponent(atob(videoData));
+        
+        const ap = new APlayer({
+            element: document.getElementById('APlayer'),
+            narrow: false,
+            autoplay: true,
+            showlrc: true,
+            music: {
+                title: title,
+                author: 'bingdou.live',
+                url: decodedUrl,
+                pic: pic
+            }
+        });
+        ap.init();
+
+    } catch (error) {
+        showError('数据加载失败，请稍后重试');
+        console.error(error);
+    }
+}
+
+// 页面加载后执行
+window.addEventListener('DOMContentLoaded', initPlayer);
+</script>
+</body>
+</html>
