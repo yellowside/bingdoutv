@@ -7,7 +7,7 @@
 <title>网络电台 - 冰豆直播</title>
 <meta name="Keywords" content="广播电台,广播,FM,网络电台,在线收听" />
 <meta name="description" content="囊括数千家FM广播电台,聚焦精品收听服务,提供有价值、有深度、有品质的声音内容。" />
-<link href="https://cdnjs.bingdou.com.cn/bingdoulive/css/style.css" rel="stylesheet">
+<link href="https://cdn.misidao.cn/bingdoulive/css/style.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.misidao.cn/font-awesome/4.7.0/css/font-awesome.css">
 </head>
 <body oncontextmenu="return false" onselectstart="return false">
@@ -60,7 +60,7 @@ $('#foot').load('../../foot.html');
 
     // 设置播放器 iframe 的 src
     if (id && name) {
-      document.getElementById('playbox').src = `https://api.bingdou.wang/fm/list/?id=${id}&name=${encodeURIComponent(name)}`;
+      document.getElementById('playbox').src = `https://api.bingdou.live/fm/list/?id=${id}&name=${encodeURIComponent(name)}`;
     }
 
     // 加载播放列表
