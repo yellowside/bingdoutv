@@ -36,7 +36,7 @@
       <h3>正在播放</h3>
     </div>
     <div class="list-w list-box" style="margin-bottom:20px;margin-right:0">
-      <script>document.write('<iframe id="playbox" allowfullscreen="true" frameborder="no" height="100%" width="100%" scrolling="no" src="//api.bingdou.live/"></iframe>');</script>
+      <script>document.write('<iframe id="playbox" allowfullscreen="true" frameborder="no" height="100%" width="100%" scrolling="no" src="https://api.bingdou.live/"></iframe>');</script>
     </div>
   </div>
 <!-- 聚合直播 -->
@@ -254,7 +254,7 @@
   </div>
 <!-- 音乐聆听 -->
   <div class="list wrap-inner">
-    <div class="list-header"><a href="https://api.qianqi.net/qq/im/?qq=77696199" class="more-go" target="_blank">申请链接</a><h4>友情链接</h4></div>
+    <div class="list-header"><a href="https://api.bingdou.com.cn/qq/im/?qq=77696199" class="more-go" target="_blank">申请链接</a><h4>友情链接</h4></div>
     <div class="list-text-box">
       <a target="_blank" href="https://tv.cctv.cn/live/">CCTV直播</a>
       <a target="_blank" href="https://live.mgtv.com/">芒果TV直播</a>
@@ -262,51 +262,9 @@
   </div>
 </main>
 <footer>
-<p><a href="https://www.huangbin.net/" target="_blank">关于我们</a> | <a href="https://api.qianqi.net/qq/im/?qq=77696199" target="_blank">联系我们</a> | <a href="https://www.bingdou.com.cn/code/464.html" target="_blank">直播接口</a></p>
-<p>&copy; 2012-<script type="text/javascript">copyright=new Date();update=copyright.getFullYear();document.write(""+ update + "");</script> bingdou.live, All Rights Reserved.</p>
+<p><a href="https://www.huangbin.net/" target="_blank">关于我们</a> | <a href="https://api.bingdou.com.cn/qq/im/?qq=77696199" target="_blank">联系我们</a> | <a href="https://www.bingdou.com.cn/code/464.html" target="_blank">直播接口</a></p>
+<p>&copy; 2012-<script type="text/javascript">document.write(new Date().getFullYear())</script> bingdou.live, All Rights Reserved.</p>
 </footer>
-<script src="https://js.users.51.la/21800321.js" integrity="sha512-w9Qsq+wm7XzTYQDz5nAejA26wWjhf3f2v6egpsWQcT9x59/oDBR1VJAovJiv/wEjuMHT0j5kmY6LeMztWS3z4A==" crossorigin="anonymous"></script>
-<style>.footnote-insite-text{color:#F9FAFC;}</style>
-    <script>
-    const agentId = "eIjz24RwRL5Kwz0jaog5ukGzfdxcslRr",
-          uidKey = "lj_chat_uid",
-          uidExpire = 864000; // 10天（秒）
-
-    let uid = getCookie(uidKey);
-    if (!uid) {
-        uid = generateUUID();
-        setCookie(uidKey, uid, uidExpire);
-    }
-
-    function generateUUID() {
-        let d = Date.now();
-        if (performance?.now) d += performance.now();
-        return Number('-xxxxxxxxxx'.replace(/x/g, () => (d + Math.random() * 10) % 10 | 0));
-    }
-
-    function setCookie(n, v, s) {
-        const e = new Date();
-        e.setTime(e.getTime() + s * 1000);
-        document.cookie = `${n}=${escape(v)};expires=${e.toGMTString()};path=/`;
-    }
-
-    function getCookie(n) {
-        const m = document.cookie.match(new RegExp("(^| )"+n+"=([^;]*)"));
-        return m ? unescape(m[2]) : null;
-    }
-
-    const scriptEl = document.createElement("script");
-    scriptEl.src = "https://gh.bingdou.com.cn/gh/yellowside/cdnjs/lingjing-agent/1.0.12/index.global.js";
-    scriptEl.onload = () => {
-        const chat = new LingJingAgent.Chat({
-            agentId,
-            uid,
-            container: undefined,
-            entry: { container: undefined, image: undefined }
-        });
-        chat.showEntry();
-    };
-    document.body.appendChild(scriptEl);
-</script>
+<script src="https://js.users.51.la/21800321.js"></script>
 </body>
 </html>
