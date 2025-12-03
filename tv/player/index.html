@@ -78,7 +78,7 @@ function base64ToUtf8(b64) {
 function initPlayer(url) {
     const encodedUrl = utf8ToBase64(url); // 使用标准 Base64 编码
     const iframe = document.getElementById('playbox');
-    iframe.src = `https://player.misidao.cn/base64/live/?url=${encodedUrl}`;
+    iframe.src = `https://player.bingdou.vip/url/?url=${encodedUrl}`;
 }
 
 // 加载频道数据
@@ -127,7 +127,7 @@ function generateLineList(list) {
         const li = document.createElement('li');
         const encodedUrl = utf8ToBase64(item.play_url); // 使用标准 Base64 编码
         li.innerHTML = `
-            <a href="https://player.misidao.cn/base64/live/?url=${encodedUrl}" 
+            <a href="https://player.bingdou.vip/url/?url=${encodedUrl}" 
                title="${escapeHTML(item.line)}" 
                target="player"
                data-id="${id}"
