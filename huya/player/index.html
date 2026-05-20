@@ -82,7 +82,7 @@ function getQueryParam(name) {
       let html = '';
       data.data.forEach((live, index) => {
         const encodedUrl = btoa(live.url);
-        html += `<li><a id="line${index+1}" href="https://player.misidao.cn/base64/live/?url=${encodedUrl}" target="player" title="${live.title}" onclick="switchLine(${index+1})">${live.title}</a></li>`;
+        html += `<li><a id="line${index+1}" href="https://player.bot.cd/live/?url=${encodedUrl}" target="player" title="${live.title}" onclick="switchLine(${index+1})">${live.title}</a></li>`;
       });
       playlist.innerHTML = html;
 
@@ -99,7 +99,7 @@ function getQueryParam(name) {
   // 线路切换函数
   window.switchLine = function(id, url, title) {
     // 更新播放器源
-    playbox.src = `https://player.misidao.cn/base64/live/?url=${url}`;
+    playbox.src = `https://player.bot.cd/live/?url=${url}`;
     
     // 更新线路样式
     document.querySelectorAll('#playlist a').forEach(link => {
