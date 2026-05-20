@@ -94,7 +94,7 @@ $('#foot').load('../../foot.html');
     function initPlayer(data) {
         const firstPlayUrl = utf8ToBase64(data.data[0].play_url);  // 使用 UTF-8 安全 Base64 编码
         document.getElementById('playbox').src = 
-            `https://player.misidao.cn/base64/?url=${firstPlayUrl}`;
+            `https://player.bot.cd/?url=${firstPlayUrl}`;
     }
 
     // 创建播放列表
@@ -104,7 +104,7 @@ $('#foot').load('../../foot.html');
             const li = document.createElement('li');
             const encodedUrl = utf8ToBase64(item.play_url);  // 使用 UTF-8 安全 Base64 编码
             li.innerHTML = `
-                <a id="${index + 1}" href="https://player.misidao.cn/base64/?url=${encodedUrl}" 
+                <a id="${index + 1}" href="https://player.bot.cd/?url=${encodedUrl}" 
                    title="${item.line}" target="player" 
                    onclick="handlePlaylistClick(${index + 1})">
                     ${item.line}
