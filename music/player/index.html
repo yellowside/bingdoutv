@@ -28,9 +28,7 @@
             <h3 id="musicTitle">正在加载...</h3>
         </div>
         <div class="list-w list-box" style="margin-bottom:20px;margin-right:0">
-            <div id="APlayer">
-                <pre class="aplayer-lrc-content" id="lrcContent"></pre>
-            </div>
+            <div id="APlayer"></div>
         </div>
     </section>
     <section class="list wrap-inner">
@@ -56,20 +54,25 @@ $('#menu').load('../../menu.html');
 $('#foot').load('../../foot.html');
 </script>
 <script>
-// 解析URL参数
 function getQueryParam(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get(name);
 }
 
-// Base64编码处理
 function utf8ToB64(str) {
     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
         return String.fromCharCode('0x' + p1);
     }));
 }
 
-// 主执行函数
+function showError(msg) {
+    console.error(msg);
+    const titleEl = document.getElementById('musicTitle');
+    const descEl = document.getElementById('musicDesc');
+    if (titleEl) titleEl.textContent = msg;
+    if (descEl) descEl.textContent = msg;
+}
+
 async function initPlayer() {
     const videoid = getQueryParam('id');
     if (!videoid) {
@@ -78,51 +81,44 @@ async function initPlayer() {
     }
 
     try {
-        // 获取音乐数据
         const musicResponse = await fetch(`https://json.bingdou.cc/music/player/?id=${videoid}`);
         const musicData = await musicResponse.json();
-        
-        if (!musicData || !musicData.length) {
+
+        const item = Array.isArray(musicData) ? musicData[0] : musicData;
+        if (!item) {
             showError('无法解析音乐数据');
             return;
         }
 
-        const { url, title, desc, pic, lrc } = musicData[0];
-        
-        // 更新页面信息
+        const { url, title, desc, pic, lrc } = item;
+
         document.title = `${title} - 音乐聆听 - 冰豆直播`;
         document.getElementById('musicTitle').textContent = `正在播放-${title}`;
-        document.getElementById('musicDesc').textContent = desc;
+        document.getElementById('musicDesc').textContent = desc || '暂无简介';
 
-        // 获取歌词
-        const lrcResponse = await fetch(lrc);
-        const lrcText = await lrcResponse.text();
-        document.getElementById('lrcContent').textContent = lrcText;
+        const decodedUrl = decodeURIComponent(atob(utf8ToB64(url)));
 
-        // 初始化播放器
-        const videoData = utf8ToB64(url);
-        const decodedUrl = decodeURIComponent(atob(videoData));
-        
+        const container = document.getElementById('APlayer');
+        container.innerHTML = '';
+
         const ap = new APlayer({
-            element: document.getElementById('APlayer'),
+            container: container,
             narrow: false,
             autoplay: true,
-            showlrc: true,
-            music: {
-                title: title,
-                author: 'bingdou.live',
+            lrcType: lrc ? 1 : 0,          // 1 表示歌词文件 URL，0 表示不显示歌词
+            audio: [{
+                name: title,
+                artist: 'bingdou.live',
                 url: decodedUrl,
-                pic: pic
-            }
+                cover: pic,
+                lrc: lrc || ''
+            }]
         });
-        ap.init();
-
     } catch (error) {
         showError('数据加载失败，请稍后重试');
         console.error(error);
     }
 }
-
 // 页面加载后执行
 window.addEventListener('DOMContentLoaded', initPlayer);
 </script>
