@@ -162,7 +162,7 @@ $(function () {
     }
 
     function selectTrack2(flag) {
-        $.getJSON('https://api.qianqi.net/163/rand/?', {
+        $.getJSON('https://json.bingdou.com.cn/music/rand/?', {
             id: '3778678'
             ,format: 'json'
         }, function(json, textStatus) {
