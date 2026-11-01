@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>冰豆直播 - 把整个世界装进屏幕</title>
+<meta name="Keywords" content="冰豆直播,影视点播,景点直播,电台直播,电视直播,在线直播,央视直播,卫视直播" />
+<meta name="description" content="冰豆直播集电视直播、影视点播、聚合直播、景点直播、网络电台与音乐聆听于一体的综合直播平台。 海量频道，一键即看，全程免费。" />
+<meta name="theme-color" content="#070b14">
+<style>
+:root {--bg:#070b14;--surface:#0d1526;--surface-2:#111c31;--border:rgba(120,170,255,.14);--border-strong:rgba(120,170,255,.30);--text:#e9f0ff;--muted:#93a5c4;--faint:#6f819f;--accent:#38bdf8;--accent-2:#22d3ee;--accent-3:#8b5cf6;--radius:18px;--header-h:68px;}
+*,*::before,*::after {box-sizing:border-box}
+html {scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body {margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body::before {content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(900px 520px at 10% -8%,rgba(56,189,248,.20),transparent 62%),radial-gradient(820px 520px at 92% -4%,rgba(139,92,246,.18),transparent 62%),radial-gradient(1000px 700px at 50% 112%,rgba(34,211,238,.10),transparent 65%);}
+img {max-width:100%;border:0}
+a {color:inherit}
+::selection {background:rgba(56,189,248,.35);color:#fff}
+.wrap {width:100%;max-width:1220px;margin:0 auto;padding:0 22px;}
+.site-header {position:sticky;top:0;z-index:100;background:rgba(7,11,20,.72);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid rgba(120,170,255,.10);transition:box-shadow .3s ease,background .3s ease;}
+.site-header.scrolled {background:rgba(7,11,20,.92);box-shadow:0 12px 30px -18px rgba(0,0,0,.95);}
+.header-inner {display:flex;align-items:center;gap:22px;height:var(--header-h);position:relative;}
+.logo {display:inline-flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0;}
+.logo-mark {width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:19px;font-weight:800;color:#fff;background:linear-gradient(135deg,#38bdf8 0%,#3b82f6 55%,#8b5cf6 100%);box-shadow:0 8px 22px -8px rgba(56,189,248,.85),inset 0 1px 0 rgba(255,255,255,.35);letter-spacing:0;}
+.logo-name {font-size:19px;font-weight:800;letter-spacing:.6px;color:#fff;white-space:nowrap;}
+.nav {display:flex;align-items:center;gap:2px;margin-left:auto;}
+.nav a {padding:9px 13px;border-radius:10px;font-size:14.5px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s,background .2s;}
+.nav a:hover,.nav a:focus-visible {color:#fff;background:rgba(56,189,248,.13);outline:none;}
+.header-cta {display:inline-flex;align-items:center;gap:7px;margin-left:12px;padding:9px 17px;border-radius:11px;font-size:14px;font-weight:600;color:#04121f;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#22d3ee);box-shadow:0 10px 24px -12px rgba(56,189,248,.95);transition:transform .2s,box-shadow .2s;flex-shrink:0;}
+.header-cta:hover {transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(56,189,248,1);}
+.nav-toggle {display:none;margin-left:auto;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.04);cursor:pointer;padding:0;position:relative;flex-shrink:0;}
+.nav-toggle span {position:absolute;left:50%;width:18px;height:2px;margin-left:-9px;border-radius:2px;background:#cfe0f7;transition:transform .28s ease,opacity .2s ease,top .28s ease;}
+.nav-toggle span:nth-child(1) {top:14px}
+.nav-toggle span:nth-child(2) {top:20px}
+.nav-toggle span:nth-child(3) {top:26px}
+.nav-toggle.active span:nth-child(1) {top:20px;transform:rotate(45deg)}
+.nav-toggle.active span:nth-child(2) {opacity:0}
+.nav-toggle.active span:nth-child(3) {top:20px;transform:rotate(-45deg)}
+.hero {position:relative;padding:80px 0 56px;overflow:hidden;}
+.hero-inner {display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center;}
+.pill {display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border-radius:999px;font-size:.82rem;font-weight:500;color:#7dd3fc;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.28);letter-spacing:.2px;}
+.pill::before {content:"";width:7px;height:7px;border-radius:50%;background:#22d3ee;box-shadow:0 0 10px #22d3ee;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse {0%,100% {opacity:1;transform:scale(1)}
+50% {opacity:.45;transform:scale(.8)}
+}
+.hero h1 {margin:22px 0 18px;font-size:clamp(2.05rem,4.6vw,2.05rem);line-height:1.16;font-weight:800;letter-spacing:-.02em;color:#fff;}
+.hero h1 .grad {display:inline-block;background:linear-gradient(100deg,#38bdf8 0%,#67e8f9 42%,#a78bfa 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-sub {margin:0;max-width:520px;font-size:1.02rem;line-height:1.85;color:var(--muted);}
+.hero-cta {display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;}
+.btn {display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 28px;border-radius:14px;font-size:16px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .22s ease,box-shadow .22s ease,background .22s ease,border-color .22s ease;-webkit-tap-highlight-color:transparent;}
+.btn svg {flex-shrink:0}
+.btn-primary {color:#04121f;background:linear-gradient(135deg,#38bdf8 0%,#22d3ee 52%,#3b82f6 100%);box-shadow:0 14px 34px -14px rgba(56,189,248,.95),inset 0 1px 0 rgba(255,255,255,.45);}
+.btn-primary:hover {transform:translateY(-2px);box-shadow:0 22px 44px -16px rgba(56,189,248,1),inset 0 1px 0 rgba(255,255,255,.55);}
+.btn-primary:active {transform:translateY(0)}
+.btn-ghost {color:var(--text);background:rgba(255,255,255,.045);border-color:var(--border-strong);}
+.btn-ghost:hover {transform:translateY(-2px);background:rgba(255,255,255,.085);border-color:rgba(120,170,255,.5);}
+.hero-tip {margin:16px 0 0;font-size:.82rem;color:var(--faint);letter-spacing:.2px;}
+.hero-visual {position:relative}
+.hero-visual::before {content:"";position:absolute;inset:-52px -40px;z-index:-1;background:radial-gradient(circle at 62% 42%,rgba(56,189,248,.30),transparent 66%);filter:blur(38px);pointer-events:none;}
+.shot-frame {position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(120,170,255,.24);background:radial-gradient(620px 320px at 18% 0%,rgba(56,189,248,.20),transparent 62%),linear-gradient(160deg,#0e1b31,#080f1c);box-shadow:0 44px 90px -34px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.035) inset;transform:perspective(1400px) rotateY(-7deg) rotateX(3deg);transition:transform .55s cubic-bezier(.2,.7,.3,1),box-shadow .55s ease;}
+.shot-frame:hover {transform:perspective(1400px) rotateY(0deg) rotateX(0deg);box-shadow:0 52px 100px -34px rgba(0,0,0,1),0 0 0 1px rgba(56,189,248,.22) inset;}
+.shot-bar {display:flex;align-items:center;gap:7px;padding:11px 14px;background:rgba(255,255,255,.035);border-bottom:1px solid rgba(120,170,255,.12);}
+.shot-bar i {width:10px;height:10px;border-radius:50%;display:block;}
+.shot-bar i:nth-child(1) {background:#ff5f57}
+.shot-bar i:nth-child(2) {background:#febc2e}
+.shot-bar i:nth-child(3) {background:#28c840}
+.shot-frame img {display:block;width:100%;height:auto;min-height:190px;object-fit:cover;}
+@keyframes riseIn {from {opacity:0;transform:translateY(18px)}
+to {opacity:1;transform:translateY(0)}
+}
+.hero-copy > * {animation:riseIn .7s cubic-bezier(.2,.7,.3,1) both}
+.hero-copy > *:nth-child(1) {animation-delay:.02s}
+.hero-copy > *:nth-child(2) {animation-delay:.08s}
+.hero-copy > *:nth-child(3) {animation-delay:.14s}
+.hero-copy > *:nth-child(4) {animation-delay:.20s}
+.hero-copy > *:nth-child(5) {animation-delay:.26s}
+.hero-visual {animation:riseIn .9s cubic-bezier(.2,.7,.3,1) .18s both}
+main {padding-top:14px;padding-bottom:30px;}
+.card {padding:22px 24px 20px;margin-bottom:20px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(19,30,52,.90),rgba(10,17,30,.90));border:1px solid var(--border);box-shadow:0 24px 48px -36px rgba(0,0,0,.95);transition:border-color .3s ease;}
+.card:hover {border-color:rgba(120,170,255,.26)}
+.card-head {display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.card-head h2 {position:relative;margin:0;padding-left:14px;font-size:1.06rem;font-weight:700;letter-spacing:.4px;color:#fff;}
+.card-head h2::before {content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:18px;border-radius:4px;background:linear-gradient(180deg,#38bdf8,#8b5cf6);box-shadow:0 0 12px rgba(56,189,248,.85);}
+.card-desc {font-size:.78rem;color:var(--faint);letter-spacing:.3px;}
+.tags {display:flex;flex-wrap:wrap;gap:10px;}
+.tags a {display:inline-block;padding:9px 16px;border-radius:11px;font-size:14px;color:#c7d6ee;text-decoration:none;background:rgba(255,255,255,.035);border:1px solid rgba(120,170,255,.12);transition:color .2s,background .2s,border-color .2s,transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent;}
+.tags a:hover,.tags a:focus-visible {color:#fff;background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.52);transform:translateY(-2px);box-shadow:0 10px 22px -12px rgba(56,189,248,.95);outline:none;}
+.tags a:active {transform:translateY(0)}
+.card-links {display:flex;flex-wrap:wrap;gap:10px 22px;}
+.card-links a {font-size:14px;color:var(--muted);text-decoration:none;border-bottom:1px dashed transparent;transition:color .2s,border-color .2s;}
+.card-links a:hover {color:#7dd3fc;border-bottom-color:rgba(56,189,248,.6)}
+.site-footer {margin-top:36px;padding:40px 0 46px;border-top:1px solid var(--border);background:linear-gradient(180deg,rgba(9,15,27,0),rgba(9,15,27,.85));text-align:center;}
+.footer-links {display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 18px;margin-bottom:16px;}
+.footer-links a {font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover {color:#7dd3fc}
+.footer-links .sep {width:1px;height:12px;background:rgba(120,170,255,.28);}
+.copyright {margin:0;font-size:.82rem;color:var(--faint);letter-spacing:.3px;}
+@media (max-width:1024px) {.nav {position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;gap:2px;margin:0;padding:10px 16px 18px;background:rgba(8,13,24,.985);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);box-shadow:0 24px 40px -20px rgba(0,0,0,.9);}
+.nav.open {display:flex}
+.nav a {padding:12px 14px;font-size:15px;border-radius:11px;color:#d5e2f6;}
+.nav-toggle {display:block}
+.header-cta {display:none}
+}
+@media (max-width:860px) {.hero {padding:52px 0 36px}
+.hero-inner {grid-template-columns:1fr;gap:40px;}
+.hero-sub {max-width:none}
+.hero-visual {order:2;max-width:640px;width:100%;margin:0 auto;}
+.shot-frame {transform:none;}
+.shot-frame:hover {transform:none}
+.hero-visual::before {inset:-30px -20px;filter:blur(30px)}
+}
+@media (max-width:560px) {.wrap {padding:0 16px}
+:root {--header-h:60px}
+.logo-mark {width:34px;height:34px;border-radius:10px;font-size:17px}
+.logo-name {font-size:17px}
+.hero {padding:40px 0 30px}
+.hero h1 {margin:16px 0 14px}
+.hero-sub {font-size:.94rem;line-height:1.78}
+.hero-cta {gap:12px;margin-top:26px}
+.btn {flex:1 1 100%;padding:14px 20px;font-size:15px;}
+.card {padding:18px 16px 16px;border-radius:16px;margin-bottom:16px}
+.card-head {margin-bottom:14px}
+.card-head h2 {font-size:1rem}
+.card-desc {display:none}
+.tags {gap:8px}
+.tags a {padding:8px 13px;font-size:13px;border-radius:10px;}
+.site-footer {padding:32px 0 38px}
+.footer-links .sep {display:none}
+}
+@media (prefers-reduced-motion:reduce) {*,*::before,*::after {animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="./" class="logo" aria-label="冰豆直播">
+      <span class="logo-mark"><svg t="1793370123526" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1138" width="25" height="25"><path d="M897.536 264.704H655.36l142.848-145.408c10.752-10.752 10.24-28.16-0.512-38.912-10.752-10.752-28.16-10.24-38.912 0.512L578.56 264.704H448.512L267.776 80.896c-10.752-10.752-28.16-10.752-38.912-0.512-10.752 10.752-10.752 28.16-0.512 38.912l142.848 145.408H129.024c-55.296 0-100.864 45.056-100.864 100.864v481.792c0 55.296 45.056 100.864 100.864 100.864h768.512c55.296 0 100.864-45.056 100.864-100.864V365.568c0-55.808-45.056-100.864-100.864-100.864z m46.08 582.656c0 25.088-20.48 45.568-45.568 45.568H129.024c-25.088 0-45.568-20.48-45.568-45.568V365.568c0-25.088 20.48-45.568 45.568-45.568h768.512c25.088 0 45.568 20.48 45.568 45.568v481.792z" p-id="1139" fill="#ffffff"></path><path d="M653.312 582.656L415.744 445.44c-8.704-5.12-18.944-5.12-27.648 0-8.704 5.12-13.824 13.824-13.824 23.552v274.432c0 9.728 5.12 18.944 13.824 23.552 4.096 2.56 9.216 3.584 13.824 3.584 4.608 0 9.728-1.024 13.824-3.584l237.568-137.216c8.704-5.12 13.824-13.824 13.824-23.552s-5.12-18.944-13.824-23.552zM429.568 696.32v-179.2l155.136 89.6L429.568 696.32z" p-id="1140" fill="#ffffff"></path></svg></span>
+      <span class="logo-name">冰豆直播</span>
+    </a>
+    <nav class="nav" id="mainNav">
+      <a href="./movie/">影视点播</a>
+      <a href="./huya/">聚合直播</a>
+      <a href="./tv/">电视直播</a>
+      <a href="./livechina/">景点直播</a>
+      <a href="./fm/">电台直播</a>
+      <a href="./music/">音乐聆听</a>
+      <a href="https://www.bingdou.vip/" rel="noopener">视频云播</a>
+      <a href="https://tao.bingdou.com.cn/" target="_blank" rel="noopener">精选福利</a>
+    </nav>
+    <a class="header-cta" href="https://down.bingdou.com.cn/f/1675875-17569909375199-81db27?p=bingdou"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载桌面端</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="展开菜单" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="pill">免费直播 · 播放流畅 · 无需登录</span>
+      <h1>冰豆直播<br><span class="grad">把整个世界装进屏幕</span></h1>
+      <p class="hero-sub">
+        集电视直播、影视点播、聚合直播、景点直播、网络电台与音乐聆听于一体的综合直播平台。
+        海量频道，一键即看，全程免费。
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://down.bingdou.com.cn/f/1675875-17569909375199-81db27?p=bingdou"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载桌面端</a>
+        <a class="btn btn-ghost" href="#channels">在线观看</a>
+      </div>
+      <p class="hero-tip">支持 Windows 10及以上 · 安装包体积小巧 · 无捆绑插件</p>
+    </div>
+    <div class="hero-visual">
+      <div class="shot-frame">
+        <div class="shot-bar"><i></i><i></i><i></i></div>
+        <img src="./images/hero-preview.avif" alt="桌面端界面效果图" width="1200" height="750" loading="eager" decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+<main class="wrap" id="channels">
+  <section class="card">
+    <div class="card-head">
+      <h2>聚合直播</h2>
+      <span class="card-desc">热门主播 · 影视轮播 · 电竞游戏</span>
+    </div>
+    <div class="tags">
+      <a href="./huya/list/?id=2135&name=影视轮播" target="_blank" rel="noopener" title="影视轮播">影视轮播</a>
+      <a href="./huya/list/?id=2633&name=二次元" target="_blank" rel="noopener" title="二次元">二次元</a>
+      <a href="./huya/list/?id=6861&name=原创" target="_blank" rel="noopener" title="原创">原创</a>
+      <a href="./huya/list/?id=2168&name=颜值" target="_blank" rel="noopener" title="颜值">颜值</a>
+      <a href="./huya/list/?id=2356&name=体育" target="_blank" rel="noopener" title="体育">体育</a>
+      <a href="./huya/list/?id=100022&name=娱乐天地" target="_blank" rel="noopener" title="娱乐天地">娱乐天地</a>
+      <a href="./huya/list/?id=100023&name=网游竞技" target="_blank" rel="noopener" title="网游竞技">网游竞技</a>
+      <a href="./huya/list/?id=100002&name=单机热游" target="_blank" rel="noopener" title="单机热游">单机热游</a>
+      <a href="./huya/list/?id=100004&name=手游休闲" target="_blank" rel="noopener" title="手游休闲">手游休闲</a>
+      <a href="./huya/player/?id=11342412" target="_blank" rel="noopener" title="周星驰系列">周星驰系列</a>
+      <a href="./huya/player/?id=11342386" target="_blank" rel="noopener" title="成龙经典武打动作片">成龙系列</a>
+      <a href="./huya/player/?id=11342424" target="_blank" rel="noopener" title="刘德华系列电影">刘德华系列</a>
+      <a href="./huya/player/?id=11342387" target="_blank" rel="noopener" title="周润发系列电影">周润发系列</a>
+      <a href="./huya/player/?id=11342421" target="_blank" rel="noopener" title="林正英搞笑僵尸系列">林正英系列</a>
+      <a href="./huya/player/?id=11601968" target="_blank" rel="noopener" title="沈腾经典片">沈腾系列</a>
+      <a href="./huya/player/?id=11282233" target="_blank" rel="noopener" title="五福星搞笑系列">五福星系列</a>
+      <a href="./huya/player/?id=11342390" target="_blank" rel="noopener" title="李连杰武打系列">李连杰系列</a>
+      <a href="./huya/player/?id=11342427" target="_blank" rel="noopener" title="金庸群侠篇电影">金庸系列</a>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>电视直播</h2>
+      <span class="card-desc">央视 · 卫视 · 地方频道</span>
+    </div>
+    <div class="tags">
+      <a href="./tv/list/?id=zhongyang" target="_blank" rel="noopener" title="中央频道">中央频道</a>
+      <a href="./tv/list/?id=weishi" target="_blank" rel="noopener" title="卫视频道">卫视频道</a>
+      <a href="./tv/list/?id=difang" target="_blank" rel="noopener" title="地方频道">地方频道</a>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>直播中国</h2>
+      <span class="card-desc">全国 31 省市景点慢直播</span>
+    </div>
+    <div class="tags">
+      <a href="./livechina/list/?name=北京" target="_blank" rel="noopener" title="北京">北京</a>
+      <a href="./livechina/list/?name=天津" target="_blank" rel="noopener" title="天津">天津</a>
+      <a href="./livechina/list/?name=河北" target="_blank" rel="noopener" title="河北">河北</a>
+      <a href="./livechina/list/?name=山西" target="_blank" rel="noopener" title="山西">山西</a>
+      <a href="./livechina/list/?name=辽宁" target="_blank" rel="noopener" title="辽宁">辽宁</a>
+      <a href="./livechina/list/?name=吉林" target="_blank" rel="noopener" title="吉林">吉林</a>
+      <a href="./livechina/list/?name=黑龙江" target="_blank" rel="noopener" title="黑龙江">黑龙江</a>
+      <a href="./livechina/list/?name=内蒙古" target="_blank" rel="noopener" title="内蒙古">内蒙古</a>
+      <a href="./livechina/list/?name=江苏" target="_blank" rel="noopener" title="江苏">江苏</a>
+      <a href="./livechina/list/?name=浙江" target="_blank" rel="noopener" title="浙江">浙江</a>
+      <a href="./livechina/list/?name=上海" target="_blank" rel="noopener" title="上海">上海</a>
+      <a href="./livechina/list/?name=安徽" target="_blank" rel="noopener" title="安徽">安徽</a>
+      <a href="./livechina/list/?name=福建" target="_blank" rel="noopener" title="福建">福建</a>
+      <a href="./livechina/list/?name=江西" target="_blank" rel="noopener" title="江西">江西</a>
+      <a href="./livechina/list/?name=山东" target="_blank" rel="noopener" title="山东">山东</a>
+      <a href="./livechina/list/?name=河南" target="_blank" rel="noopener" title="河南">河南</a>
+      <a href="./livechina/list/?name=湖北" target="_blank" rel="noopener" title="湖北">湖北</a>
+      <a href="./livechina/list/?name=湖南" target="_blank" rel="noopener" title="湖南">湖南</a>
+      <a href="./livechina/list/?name=广东" target="_blank" rel="noopener" title="广东">广东</a>
+      <a href="./livechina/list/?name=广西" target="_blank" rel="noopener" title="广西">广西</a>
+      <a href="./livechina/list/?name=海南" target="_blank" rel="noopener" title="海南">海南</a>
+      <a href="./livechina/list/?name=重庆" target="_blank" rel="noopener" title="重庆">重庆</a>
+      <a href="./livechina/list/?name=四川" target="_blank" rel="noopener" title="四川">四川</a>
+      <a href="./livechina/list/?name=宁夏" target="_blank" rel="noopener" title="宁夏">宁夏</a>
+      <a href="./livechina/list/?name=青海" target="_blank" rel="noopener" title="青海">青海</a>
+      <a href="./livechina/list/?name=贵州" target="_blank" rel="noopener" title="贵州">贵州</a>
+      <a href="./livechina/list/?name=云南" target="_blank" rel="noopener" title="云南">云南</a>
+      <a href="./livechina/list/?name=陕西" target="_blank" rel="noopener" title="陕西">陕西</a>
+      <a href="./livechina/list/?name=甘肃" target="_blank" rel="noopener" title="甘肃">甘肃</a>
+      <a href="./livechina/list/?name=新疆" target="_blank" rel="noopener" title="新疆">新疆</a>
+      <a href="./livechina/list/?name=西藏" target="_blank" rel="noopener" title="西藏">西藏</a>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>网络电台</h2>
+      <span class="card-desc">全国广播 · 分类电台</span>
+    </div>
+    <div class="tags">
+      <a href="./fm/list/?id=407&name=网络台" target="_blank" rel="noopener" title="网络台">网络台</a>
+      <a href="./fm/list/?id=433&name=资讯台" target="_blank" rel="noopener" title="资讯台">资讯台</a>
+      <a href="./fm/list/?id=442&name=音乐台" target="_blank" rel="noopener" title="音乐台">音乐台</a>
+      <a href="./fm/list/?id=429&name=交通台" target="_blank" rel="noopener" title="交通台">交通台</a>
+      <a href="./fm/list/?id=439&name=经济台" target="_blank" rel="noopener" title="经济台">经济台</a>
+      <a href="./fm/list/?id=432&name=文艺台" target="_blank" rel="noopener" title="文艺台">文艺台</a>
+      <a href="./fm/list/?id=430&name=体育台" target="_blank" rel="noopener" title="体育台">体育台</a>
+      <a href="./fm/list/?id=440&name=综合台" target="_blank" rel="noopener" title="综合台">综合台</a>
+      <a href="./fm/list/?id=438&name=生活台" target="_blank" rel="noopener" title="生活台">生活台</a>
+      <a href="./fm/list/?id=435&name=旅游台" target="_blank" rel="noopener" title="旅游台">旅游台</a>
+      <a href="./fm/list/?id=436&name=曲艺台" target="_blank" rel="noopener" title="曲艺台">曲艺台</a>
+      <a href="./fm/list/?id=434&name=方言台" target="_blank" rel="noopener" title="方言台">方言台</a>
+      <a href="./fm/list/?id=3&name=北京" target="_blank" rel="noopener" title="北京">北京</a>
+      <a href="./fm/list/?id=5&name=天津" target="_blank" rel="noopener" title="天津">天津</a>
+      <a href="./fm/list/?id=7&name=河北" target="_blank" rel="noopener" title="河北">河北</a>
+      <a href="./fm/list/?id=19&name=山西" target="_blank" rel="noopener" title="山西">山西</a>
+      <a href="./fm/list/?id=31&name=内蒙古" target="_blank" rel="noopener" title="内蒙古">内蒙古</a>
+      <a href="./fm/list/?id=44&name=辽宁" target="_blank" rel="noopener" title="辽宁">辽宁</a>
+      <a href="./fm/list/?id=59&name=吉林" target="_blank" rel="noopener" title="吉林">吉林</a>
+      <a href="./fm/list/?id=69&name=黑龙江" target="_blank" rel="noopener" title="黑龙江">黑龙江</a>
+      <a href="./fm/list/?id=83&name=上海" target="_blank" rel="noopener" title="上海">上海</a>
+      <a href="./fm/list/?id=85&name=江苏" target="_blank" rel="noopener" title="江苏">江苏</a>
+      <a href="./fm/list/?id=99&name=浙江" target="_blank" rel="noopener" title="浙江">浙江</a>
+      <a href="./fm/list/?id=111&name=安徽" target="_blank" rel="noopener" title="安徽">安徽</a>
+      <a href="./fm/list/?id=129&name=福建" target="_blank" rel="noopener" title="福建">福建</a>
+      <a href="./fm/list/?id=139&name=江西" target="_blank" rel="noopener" title="江西">江西</a>
+      <a href="./fm/list/?id=151&name=山东" target="_blank" rel="noopener" title="山东">山东</a>
+      <a href="./fm/list/?id=169&name=河南" target="_blank" rel="noopener" title="河南">河南</a>
+      <a href="./fm/list/?id=187&name=湖北" target="_blank" rel="noopener" title="湖北">湖北</a>
+      <a href="./fm/list/?id=202&name=湖南" target="_blank" rel="noopener" title="湖南">湖南</a>
+      <a href="./fm/list/?id=217&name=广东" target="_blank" rel="noopener" title="广东">广东</a>
+      <a href="./fm/list/?id=239&name=广西" target="_blank" rel="noopener" title="广西">广西</a>
+      <a href="./fm/list/?id=254&name=海南" target="_blank" rel="noopener" title="海南">海南</a>
+      <a href="./fm/list/?id=257&name=重庆" target="_blank" rel="noopener" title="重庆">重庆</a>
+      <a href="./fm/list/?id=259&name=四川" target="_blank" rel="noopener" title="四川">四川</a>
+      <a href="./fm/list/?id=281&name=贵州" target="_blank" rel="noopener" title="贵州">贵州</a>
+      <a href="./fm/list/?id=291&name=云南" target="_blank" rel="noopener" title="云南">云南</a>
+      <a href="./fm/list/?id=308&name=西藏" target="_blank" rel="noopener" title="西藏">西藏</a>
+      <a href="./fm/list/?id=316&name=陕西" target="_blank" rel="noopener" title="陕西">陕西</a>
+      <a href="./fm/list/?id=327&name=甘肃" target="_blank" rel="noopener" title="甘肃">甘肃</a>
+      <a href="./fm/list/?id=342&name=青海" target="_blank" rel="noopener" title="青海">青海</a>
+      <a href="./fm/list/?id=351&name=宁夏" target="_blank" rel="noopener" title="宁夏">宁夏</a>
+      <a href="./fm/list/?id=357&name=新疆" target="_blank" rel="noopener" title="新疆">新疆</a>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>音乐聆听</h2>
+      <span class="card-desc">榜单 · 语种 · 风格 · 场景</span>
+    </div>
+    <div class="tags">
+      <a href="./music/playlist/?id=19723756" target="_blank" rel="noopener" title="飙升榜">飙升榜</a>
+      <a href="./music/playlist/?id=3779629" target="_blank" rel="noopener" title="新歌榜">新歌榜</a>
+      <a href="./music/playlist/?id=2884035" target="_blank" rel="noopener" title="原创榜">原创榜</a>
+      <a href="./music/playlist/?id=3778678" target="_blank" rel="noopener" title="热歌榜">热歌榜</a>
+      <a href="./music/list/?cat=华语" target="_blank" rel="noopener" title="华语">华语</a>
+      <a href="./music/list/?cat=欧美" target="_blank" rel="noopener" title="欧美">欧美</a>
+      <a href="./music/list/?cat=日语" target="_blank" rel="noopener" title="日语">日语</a>
+      <a href="./music/list/?cat=韩语" target="_blank" rel="noopener" title="韩语">韩语</a>
+      <a href="./music/list/?cat=粤语" target="_blank" rel="noopener" title="粤语">粤语</a>
+      <a href="./music/list/?cat=流行" target="_blank" rel="noopener" title="流行">流行</a>
+      <a href="./music/list/?cat=摇滚" target="_blank" rel="noopener" title="摇滚">摇滚</a>
+      <a href="./music/list/?cat=民谣" target="_blank" rel="noopener" title="民谣">民谣</a>
+      <a href="./music/list/?cat=电子" target="_blank" rel="noopener" title="电子">电子</a>
+      <a href="./music/list/?cat=舞曲" target="_blank" rel="noopener" title="舞曲">舞曲</a>
+      <a href="./music/list/?cat=说唱" target="_blank" rel="noopener" title="说唱">说唱</a>
+      <a href="./music/list/?cat=轻音乐" target="_blank" rel="noopener" title="轻音乐">轻音乐</a>
+      <a href="./music/list/?cat=爵士" target="_blank" rel="noopener" title="爵士">爵士</a>
+      <a href="./music/list/?cat=乡村" target="_blank" rel="noopener" title="乡村">乡村</a>
+      <a href="./music/list/?cat=R%26B/Soul" target="_blank" rel="noopener" title="R&B/Soul">R&amp;B/Soul</a>
+      <a href="./music/list/?cat=古典" target="_blank" rel="noopener" title="古典">古典</a>
+      <a href="./music/list/?cat=民族" target="_blank" rel="noopener" title="民族">民族</a>
+      <a href="./music/list/?cat=英伦" target="_blank" rel="noopener" title="英伦">英伦</a>
+      <a href="./music/list/?cat=金属" target="_blank" rel="noopener" title="金属">金属</a>
+      <a href="./music/list/?cat=朋克" target="_blank" rel="noopener" title="朋克">朋克</a>
+      <a href="./music/list/?cat=蓝调" target="_blank" rel="noopener" title="蓝调">蓝调</a>
+      <a href="./music/list/?cat=雷鬼" target="_blank" rel="noopener" title="雷鬼">雷鬼</a>
+      <a href="./music/list/?cat=世界音乐" target="_blank" rel="noopener" title="世界音乐">世界音乐</a>
+      <a href="./music/list/?cat=拉丁" target="_blank" rel="noopener" title="拉丁">拉丁</a>
+      <a href="./music/list/?cat=NewAge" target="_blank" rel="noopener" title="New Age">New Age</a>
+      <a href="./music/list/?cat=古风" target="_blank" rel="noopener" title="古风">古风</a>
+      <a href="./music/list/?cat=后摇" target="_blank" rel="noopener" title="后摇">后摇</a>
+      <a href="./music/list/?cat=BossaNova" target="_blank" rel="noopener" title="Bossa Nova">Bossa Nova</a>
+      <a href="./music/list/?cat=清晨" target="_blank" rel="noopener" title="清晨">清晨</a>
+      <a href="./music/list/?cat=夜晚" target="_blank" rel="noopener" title="夜晚">夜晚</a>
+      <a href="./music/list/?cat=学习" target="_blank" rel="noopener" title="学习">学习</a>
+      <a href="./music/list/?cat=工作" target="_blank" rel="noopener" title="工作">工作</a>
+      <a href="./music/list/?cat=午休" target="_blank" rel="noopener" title="午休">午休</a>
+      <a href="./music/list/?cat=下午茶" target="_blank" rel="noopener" title="下午茶">下午茶</a>
+      <a href="./music/list/?cat=地铁" target="_blank" rel="noopener" title="地铁">地铁</a>
+      <a href="./music/list/?cat=驾车" target="_blank" rel="noopener" title="驾车">驾车</a>
+      <a href="./music/list/?cat=运动" target="_blank" rel="noopener" title="运动">运动</a>
+      <a href="./music/list/?cat=旅行" target="_blank" rel="noopener" title="旅行">旅行</a>
+      <a href="./music/list/?cat=散步" target="_blank" rel="noopener" title="散步">散步</a>
+      <a href="./music/list/?cat=酒吧" target="_blank" rel="noopener" title="酒吧">酒吧</a>
+      <a href="./music/list/?cat=怀旧" target="_blank" rel="noopener" title="怀旧">怀旧</a>
+      <a href="./music/list/?cat=清新" target="_blank" rel="noopener" title="清新">清新</a>
+      <a href="./music/list/?cat=浪漫" target="_blank" rel="noopener" title="浪漫">浪漫</a>
+      <a href="./music/list/?cat=伤感" target="_blank" rel="noopener" title="伤感">伤感</a>
+      <a href="./music/list/?cat=治愈" target="_blank" rel="noopener" title="治愈">治愈</a>
+      <a href="./music/list/?cat=放松" target="_blank" rel="noopener" title="放松">放松</a>
+      <a href="./music/list/?cat=孤独" target="_blank" rel="noopener" title="孤独">孤独</a>
+      <a href="./music/list/?cat=感动" target="_blank" rel="noopener" title="感动">感动</a>
+      <a href="./music/list/?cat=兴奋" target="_blank" rel="noopener" title="兴奋">兴奋</a>
+      <a href="./music/list/?cat=快乐" target="_blank" rel="noopener" title="快乐">快乐</a>
+      <a href="./music/list/?cat=安静" target="_blank" rel="noopener" title="安静">安静</a>
+      <a href="./music/list/?cat=思念" target="_blank" rel="noopener" title="思念">思念</a>
+      <a href="./music/list/?cat=综艺" target="_blank" rel="noopener" title="综艺">综艺</a>
+      <a href="./music/list/?cat=影视原声" target="_blank" rel="noopener" title="影视原声">影视原声</a>
+      <a href="./music/list/?cat=ACG" target="_blank" rel="noopener" title="ACG">ACG</a>
+      <a href="./music/list/?cat=儿童" target="_blank" rel="noopener" title="儿童">儿童</a>
+      <a href="./music/list/?cat=校园" target="_blank" rel="noopener" title="校园">校园</a>
+      <a href="./music/list/?cat=游戏" target="_blank" rel="noopener" title="游戏">游戏</a>
+      <a href="./music/list/?cat=70后" target="_blank" rel="noopener" title="70后">70后</a>
+      <a href="./music/list/?cat=80后" target="_blank" rel="noopener" title="80后">80后</a>
+      <a href="./music/list/?cat=90后" target="_blank" rel="noopener" title="90后">90后</a>
+      <a href="./music/list/?cat=00后" target="_blank" rel="noopener" title="00后">00后</a>
+      <a href="./music/list/?cat=网络歌曲" target="_blank" rel="noopener" title="网络歌曲">网络歌曲</a>
+      <a href="./music/list/?cat=KTV" target="_blank" rel="noopener" title="KTV">KTV</a>
+      <a href="./music/list/?cat=经典" target="_blank" rel="noopener" title="经典">经典</a>
+      <a href="./music/list/?cat=翻唱" target="_blank" rel="noopener" title="翻唱">翻唱</a>
+      <a href="./music/list/?cat=吉他" target="_blank" rel="noopener" title="吉他">吉他</a>
+      <a href="./music/list/?cat=钢琴" target="_blank" rel="noopener" title="钢琴">钢琴</a>
+      <a href="./music/list/?cat=器乐" target="_blank" rel="noopener" title="器乐">器乐</a>
+      <a href="./music/list/?cat=榜单" target="_blank" rel="noopener" title="榜单">榜单</a>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>友情链接</h2>
+      <a class="card-desc" href="https://api.bingdou.com.cn/qq/im/?qq=77696199" target="_blank" rel="noopener" style="text-decoration:none;margin-left:auto;color:#7dd3fc">申请链接 →</a>
+    </div>
+    <div class="card-links">
+      <a target="_blank" rel="noopener" href="https://tv.cctv.cn/live/">CCTV 直播</a>
+      <a target="_blank" rel="noopener" href="https://live.mgtv.com/">芒果TV 直播</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="https://bingdou.cc/" target="_blank" rel="noopener">关于我们</a>
+      <span class="sep"></span>
+      <a href="https://api.bingdou.com.cn/qq/im/?qq=77696199" target="_blank" rel="noopener">联系我们</a>
+      <span class="sep"></span>
+      <a href="https://www.bingdou.com.cn/code/464.html" target="_blank" rel="noopener">直播接口</a>
+    </div>
+    <p class="copyright">&copy; 2012-<span id="year">2026</span> bingdou.live, All Rights Reserved.</p>
+  </div>
+</footer>
+<script>
+(function () {
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('mainNav');
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.classList.toggle('active', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '收起菜单' : '展开菜单');
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  var header = document.getElementById('siteHeader');
+  var onScroll = function () {
+    if (!header) return;
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+</script>
+<script async src="https://01a19506-d7a7-7916-b03b-49db37e91d0e.spst2.com/ustat.js"></script>
+</body>
+</html>

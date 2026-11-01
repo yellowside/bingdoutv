@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>电视直播 - 冰豆直播</title>
+<meta name="Keywords" content="卫视直播,影视直播,电台直播,电视直播,在线直播,央视直播">
+<meta name="description" content="集多家电视直播、影视直播于一体的综合直播网站，能够在线收看电视台直播、电影直播，播放流畅、完全免费!">
+<meta name="theme-color" content="#070b14">
+<style>
+:root {--bg:#070b14;--surface:#0d1526;--border:rgba(120,170,255,.14);--border-strong:rgba(120,170,255,.30);--text:#e9f0ff;--muted:#93a5c4;--faint:#6f819f;--accent:#38bdf8;--accent-2:#22d3ee;--accent-3:#8b5cf6;--radius:18px;--header-h:68px;}
+*,*::before,*::after {box-sizing:border-box}
+html {scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body {margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body::before {content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(900px 520px at 10% -8%,rgba(56,189,248,.20),transparent 62%),radial-gradient(820px 520px at 92% -4%,rgba(139,92,246,.18),transparent 62%),radial-gradient(1000px 700px at 50% 112%,rgba(34,211,238,.10),transparent 65%);}
+img {max-width:100%;border:0}
+a {color:inherit}
+::selection {background:rgba(56,189,248,.35);color:#fff}
+.wrap {width:100%;max-width:1220px;margin:0 auto;padding:0 22px;}
+.site-header {position:sticky;top:0;z-index:100;background:rgba(7,11,20,.72);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid rgba(120,170,255,.10);transition:box-shadow .3s ease,background .3s ease;}
+.site-header.scrolled {background:rgba(7,11,20,.92);box-shadow:0 12px 30px -18px rgba(0,0,0,.95);}
+.header-inner {display:flex;align-items:center;gap:22px;height:var(--header-h);position:relative;}
+.logo {display:inline-flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0;}
+.logo-mark {width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#38bdf8 0%,#3b82f6 55%,#8b5cf6 100%);box-shadow:0 8px 22px -8px rgba(56,189,248,.85),inset 0 1px 0 rgba(255,255,255,.35);flex-shrink:0;}
+.logo-mark svg {width:22px;height:22px;display:block}
+.logo-name {font-size:19px;font-weight:800;letter-spacing:.6px;color:#fff;white-space:nowrap;}
+.nav {display:flex;align-items:center;gap:2px;margin-left:auto;}
+.nav a {padding:9px 13px;border-radius:10px;font-size:14.5px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s,background .2s;}
+.nav a:hover,.nav a:focus-visible {color:#fff;background:rgba(56,189,248,.13);outline:none;}
+.header-cta {display:inline-flex;align-items:center;gap:7px;margin-left:12px;padding:9px 17px;border-radius:11px;font-size:14px;font-weight:600;color:#04121f;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#22d3ee);box-shadow:0 10px 24px -12px rgba(56,189,248,.95);transition:transform .2s,box-shadow .2s;flex-shrink:0;}
+.header-cta:hover {transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(56,189,248,1);}
+.nav-toggle {display:none;margin-left:auto;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.04);cursor:pointer;padding:0;position:relative;flex-shrink:0;}
+.nav-toggle span {position:absolute;left:50%;width:18px;height:2px;margin-left:-9px;border-radius:2px;background:#cfe0f7;transition:transform .28s ease,opacity .2s ease,top .28s ease;}
+.nav-toggle span:nth-child(1) {top:14px}
+.nav-toggle span:nth-child(2) {top:20px}
+.nav-toggle span:nth-child(3) {top:26px}
+.nav-toggle.active span:nth-child(1) {top:20px;transform:rotate(45deg)}
+.nav-toggle.active span:nth-child(2) {opacity:0}
+.nav-toggle.active span:nth-child(3) {top:20px;transform:rotate(-45deg)}
+main {flex:1 0 auto;padding-top:34px;padding-bottom:30px;}
+.page-head {margin-top:20px;margin-bottom:22px}
+.crumb {display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:.82rem;color:var(--faint);margin-bottom:14px;letter-spacing:.3px;}
+.crumb a {color:var(--muted);text-decoration:none;transition:color .2s;}
+.crumb a:hover {color:#7dd3fc}
+.crumb .slash {color:rgba(120,170,255,.35)}
+.page-title {display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:0;font-size:clamp(1.5rem,3.2vw,2rem);font-weight:800;letter-spacing:-.01em;color:#fff;}
+.page-title::before {content:"";width:5px;height:24px;border-radius:5px;background:linear-gradient(180deg,#38bdf8,#8b5cf6);box-shadow:0 0 14px rgba(56,189,248,.85);flex-shrink:0;}
+.page-sub {margin:10px 0 0;font-size:.92rem;color:var(--muted);letter-spacing:.2px;}
+.card {padding:22px 24px 24px;margin-bottom:20px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(19,30,52,.90),rgba(10,17,30,.90));border:1px solid var(--border);box-shadow:0 24px 48px -36px rgba(0,0,0,.95);transition:border-color .3s ease;}
+.card:hover {border-color:rgba(120,170,255,.26)}
+.card-head {display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:15px;border-bottom:1px solid rgba(120,170,255,.10);}
+.card-head h2 {position:relative;margin:0;padding-left:14px;font-size:1.02rem;font-weight:700;letter-spacing:.4px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card-head h2::before {content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:17px;border-radius:4px;background:linear-gradient(180deg,#38bdf8,#8b5cf6);box-shadow:0 0 12px rgba(56,189,248,.85);}
+.card-head .hint {margin-left:auto;font-size:.78rem;color:var(--faint);letter-spacing:.3px;flex-shrink:0;}
+.count-badge {display:inline-flex;align-items:center;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:600;color:#7dd3fc;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.28);letter-spacing:.3px;white-space:nowrap;margin-left:2px;}
+.player-card {padding:0;overflow:hidden}
+.player-head {display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid rgba(120,170,255,.10);background:rgba(255,255,255,.02);}
+.player-head h2 {margin:0;font-size:.98rem;font-weight:700;letter-spacing:.3px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.live-dot {width:8px;height:8px;border-radius:50%;background:#22d3ee;box-shadow:0 0 10px #22d3ee;flex-shrink:0;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse {0%,100% {opacity:1;transform:scale(1)}
+50% {opacity:.45;transform:scale(.8)}
+}
+.player-stage {position:relative;width:100%;aspect-ratio:16 / 9;background:#000;overflow:hidden;}
+.player-stage iframe,.player-stage #playbox {position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+.player-stage #playbox {display:block;position:relative;}
+.player-loader {position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 45%,rgba(56,189,248,.12),rgba(7,11,20,.96) 70%);color:var(--muted);font-size:.88rem;letter-spacing:.3px;transition:opacity .4s ease,visibility .4s ease;}
+.player-loader.hidden {opacity:0;visibility:hidden;}
+.spinner {width:36px;height:36px;border-radius:50%;border:3px solid rgba(120,170,255,.18);border-top-color:#38bdf8;animation:spin .8s linear infinite;}
+@keyframes spin {to {transform:rotate(360deg)}
+}
+.retry-btn {display:inline-flex;align-items:center;gap:8px;margin-top:4px;padding:10px 22px;border-radius:11px;font-size:14px;font-weight:600;color:#04121f;border:none;cursor:pointer;background:linear-gradient(135deg,#38bdf8,#22d3ee);box-shadow:0 12px 26px -14px rgba(56,189,248,.95);transition:transform .2s,box-shadow .2s;font-family:inherit;}
+.retry-btn:hover {transform:translateY(-2px);box-shadow:0 18px 34px -14px rgba(56,189,248,1);}
+.chips {display:flex;flex-wrap:wrap;gap:10px;}
+.chip {display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;font-size:14px;font-weight:600;color:#c7d6ee;text-decoration:none;background:rgba(255,255,255,.035);border:1px solid rgba(120,170,255,.14);transition:color .22s,background .22s,border-color .22s,transform .22s,box-shadow .22s;-webkit-tap-highlight-color:transparent;}
+.chip:hover,.chip:focus-visible {color:#fff;background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.52);transform:translateY(-2px);box-shadow:0 10px 22px -12px rgba(56,189,248,.95);outline:none;}
+.chip:active {transform:translateY(0)}
+.chip svg {flex-shrink:0}
+.channels {display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.channel {display:flex;align-items:center;gap:9px;padding:11px 13px;border-radius:12px;font-size:14px;color:#c7d6ee;text-decoration:none;background:rgba(255,255,255,.035);border:1px solid rgba(120,170,255,.12);transition:color .22s,background .22s,border-color .22s,transform .22s,box-shadow .22s;-webkit-tap-highlight-color:transparent;animation:itemIn .4s cubic-bezier(.2,.7,.3,1) both;}
+.channel:hover,.channel:focus-visible {color:#fff;background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.52);transform:translateY(-2px);box-shadow:0 10px 22px -12px rgba(56,189,248,.95);outline:none;}
+.channel:active {transform:translateY(0)}
+.channel-no {min-width:22px;height:22px;padding:0 5px;border-radius:7px;flex-shrink:0;display:grid;place-items:center;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.24);color:#7dd3fc;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;transition:background .22s,color .22s,border-color .22s;}
+.channel:hover .channel-no {background:linear-gradient(135deg,#38bdf8,#22d3ee);border-color:transparent;color:#04121f;}
+.channel-name {flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+@keyframes itemIn {from {opacity:0;transform:translateY(10px)}
+to {opacity:1;transform:translateY(0)}
+}
+.skeleton {display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.sk-item {height:46px;border-radius:12px;background:linear-gradient(100deg,rgba(255,255,255,.045) 20%,rgba(120,170,255,.14) 40%,rgba(255,255,255,.045) 60%);background-size:220% 100%;animation:shimmer 1.25s ease-in-out infinite;}
+@keyframes shimmer {0% {background-position:150% 0}
+100% {background-position:-50% 0}
+}
+.state {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:44px 20px;text-align:center;}
+.state-icon {width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.26);color:#7dd3fc;font-size:22px;font-weight:700;}
+.state p {margin:0;font-size:.92rem;color:var(--muted);letter-spacing:.2px;}
+.site-footer {flex-shrink:0;padding:40px 0 46px;border-top:1px solid var(--border);background:linear-gradient(180deg,rgba(9,15,27,0),rgba(9,15,27,.85));text-align:center;}
+.footer-links {display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 18px;margin-bottom:16px;}
+.footer-links a {font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover {color:#7dd3fc}
+.footer-links .sep {width:1px;height:12px;background:rgba(120,170,255,.28);}
+.copyright {margin:0;font-size:.82rem;color:var(--faint);letter-spacing:.3px;}
+@media (max-width:1024px) {.nav {position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;gap:2px;margin:0;padding:10px 16px 18px;background:rgba(8,13,24,.985);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);box-shadow:0 24px 40px -20px rgba(0,0,0,.9);}
+.nav.open {display:flex}
+.nav a {padding:12px 14px;font-size:15px;border-radius:11px;color:#d5e2f6;}
+.nav-toggle {display:block}
+.header-cta {display:none}
+}
+@media (max-width:560px) {.wrap {padding:0 16px}
+:root {--header-h:60px}
+.logo-mark {width:34px;height:34px;border-radius:10px}
+.logo-mark svg {width:19px;height:19px}
+.logo-name {font-size:17px}
+main {padding-top:24px;padding-bottom:22px}
+.page-head {margin-bottom:18px}
+.page-title {font-size:1.3rem}
+.page-title::before {height:20px;width:4px}
+.page-sub {font-size:.85rem}
+.crumb {font-size:.76rem;margin-bottom:10px}
+.card {padding:18px 16px 18px;border-radius:16px;margin-bottom:16px}
+.card-head {margin-bottom:14px;padding-bottom:13px}
+.card-head h2 {font-size:.96rem}
+.card-head .hint {display:none}
+.player-head {padding:13px 15px}
+.player-head h2 {font-size:.9rem}
+.chips {gap:8px}
+.chip {flex:1 1 calc(50% - 8px);justify-content:center;padding:10px 12px;font-size:13px;}
+.channels,.skeleton {grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:9px;}
+.channel {padding:10px 11px;font-size:13px;border-radius:11px;}
+.channel-no {min-width:20px;height:20px;font-size:9px}
+.site-footer {padding:32px 0 38px}
+.footer-links .sep {display:none}
+}
+@media (prefers-reduced-motion:reduce) {*,*::before,*::after {animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="../" class="logo" aria-label="冰豆直播">
+      <span class="logo-mark">
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M897.536 264.704H655.36l142.848-145.408c10.752-10.752 10.24-28.16-0.512-38.912-10.752-10.752-28.16-10.24-38.912 0.512L578.56 264.704H448.512L267.776 80.896c-10.752-10.752-28.16-10.752-38.912-0.512-10.752 10.752-10.752 28.16-0.512 38.912l142.848 145.408H129.024c-55.296 0-100.864 45.056-100.864 100.864v481.792c0 55.296 45.056 100.864 100.864 100.864h768.512c55.296 0 100.864-45.056 100.864-100.864V365.568c0-55.808-45.056-100.864-100.864-100.864z m46.08 582.656c0 25.088-20.48 45.568-45.568 45.568H129.024c-25.088 0-45.568-20.48-45.568-45.568V365.568c0-25.088 20.48-45.568 45.568-45.568h768.512c25.088 0 45.568 20.48 45.568 45.568v481.792z" fill="#ffffff"/>
+          <path d="M653.312 582.656L415.744 445.44c-8.704-5.12-18.944-5.12-27.648 0-8.704 5.12-13.824 13.824-13.824 23.552v274.432c0 9.728 5.12 18.944 13.824 23.552 4.096 2.56 9.216 3.584 13.824 3.584 4.608 0 9.728-1.024 13.824-3.584l237.568-137.216c8.704-5.12 13.824-13.824 13.824-23.552s-5.12-18.944-13.824-23.552zM429.568 696.32v-179.2l155.136 89.6L429.568 696.32z" fill="#ffffff"/>
+        </svg>
+      </span>
+      <span class="logo-name">冰豆直播</span>
+    </a>
+    <nav class="nav" id="mainNav">
+      <a href="../">首页</a>
+      <a href="../movie/">影视点播</a>
+      <a href="../huya/">聚合直播</a>
+      <a href="../tv/">电视直播</a>
+      <a href="../livechina/">景点直播</a>
+      <a href="../fm/">电台直播</a>
+      <a href="../music/">音乐聆听</a>
+      <a href="https://www.bingdou.vip/" rel="noopener">视频云播</a>
+      <a href="https://tao.bingdou.com.cn/" target="_blank" rel="noopener">精选福利</a>
+    </nav>
+    <a class="header-cta" href="https://down.bingdou.com.cn/f/1675875-17569909375199-81db27?p=bingdou"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载桌面端</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="展开菜单" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<main class="wrap">
+  <div class="page-head">
+    <nav class="crumb" aria-label="面包屑">
+      <a href="../">首页</a>
+      <span class="slash">/</span>
+      <span>电视直播</span>
+    </nav>
+    <h1 class="page-title">电视直播</h1>
+    <p class="page-sub">央视 · 卫视 · 地方台 · 在线流畅观看</p>
+  </div>
+  <section class="card player-card">
+    <div class="player-head">
+      <span class="live-dot"></span>
+      <h2 id="currentChannel">正在加载频道…</h2>
+    </div>
+    <div class="player-stage">
+      <div class="player-loader" id="playerLoader">
+        <span class="spinner"></span>
+        <span>直播流加载中…</span>
+      </div>
+      <div id="playbox"></div>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>直播分类</h2>
+      <span class="hint">点击快速跳转</span>
+    </div>
+    <div class="chips">
+      <a class="chip" href="./list/?id=zhongyang" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8"/><path d="M12 18v4"/>
+        </svg>
+        中央频道
+      </a>
+      <a class="chip" href="./list/?id=weishi" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/>
+        </svg>
+        卫视频道
+      </a>
+      <a class="chip" href="./list/?id=difang" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/>
+        </svg>
+        地方频道
+      </a>
+    </div>
+  </section>
+  <section class="card" id="zhongyangList">
+    <div class="card-head">
+      <h2>中央频道</h2>
+      <span class="count-badge" id="zhongyangCount" hidden>0</span>
+      <span class="hint">点击观看</span>
+    </div>
+    <div class="channels playlist" id="zhongyangChannels"></div>
+  </section>
+  <section class="card" id="weishiList">
+    <div class="card-head">
+      <h2>卫视频道</h2>
+      <span class="count-badge" id="weishiCount" hidden>0</span>
+      <span class="hint">点击观看</span>
+    </div>
+    <div class="channels playlist" id="weishiChannels"></div>
+  </section>
+  <section class="card" id="difangList">
+    <div class="card-head">
+      <h2>地方频道</h2>
+      <span class="count-badge" id="difangCount" hidden>0</span>
+      <span class="hint">点击观看</span>
+    </div>
+    <div class="channels playlist" id="difangChannels"></div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="https://bingdou.cc/" target="_blank" rel="noopener">关于我们</a>
+      <span class="sep"></span>
+      <a href="https://api.bingdou.com.cn/qq/im/?qq=77696199" target="_blank" rel="noopener">联系我们</a>
+      <span class="sep"></span>
+      <a href="https://www.bingdou.com.cn/code/464.html" target="_blank" rel="noopener">直播接口</a>
+    </div>
+    <p class="copyright">&copy; 2012-<span id="year">2026</span> bingdou.live, All Rights Reserved.</p>
+  </div>
+</footer>
+<script>
+(function () {
+  'use strict';
+
+  var header = document.getElementById('siteHeader');
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('mainNav');
+  var yearEl = document.getElementById('year');
+
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.classList.toggle('active', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '收起菜单' : '展开菜单');
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  var onScroll = function () {
+    if (!header) return;
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  function escapeHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  function utf8ToB64(str) {
+    try {
+      return btoa(unescape(encodeURIComponent(str)));
+    } catch (e) {
+      return btoa(str);
+    }
+  }
+
+  var playbox = document.getElementById('playbox');
+  var playerLoader = document.getElementById('playerLoader');
+  var currentChannel = document.getElementById('currentChannel');
+
+  var loaderTimer = null;
+
+  function showLoader(text) {
+    if (loaderTimer) { clearTimeout(loaderTimer); loaderTimer = null; }
+    if (!playerLoader) return;
+    playerLoader.classList.remove('hidden');
+    var span = playerLoader.querySelector('span:last-child');
+    if (span && text) span.textContent = text;
+  }
+
+  function hideLoader() {
+    if (loaderTimer) { clearTimeout(loaderTimer); loaderTimer = null; }
+    if (playerLoader) playerLoader.classList.add('hidden');
+  }
+
+  function renderPlayerError(message) {
+    if (!playerLoader) return;
+    playerLoader.classList.remove('hidden');
+    playerLoader.innerHTML =
+      '<div class="state" style="padding:24px 16px">' +
+        '<div class="state-icon">!</div>' +
+        '<p style="margin:0">' + escapeHtml(message) + '</p>' +
+        '<button class="retry-btn" type="button" id="playerRetry">重新加载</button>' +
+      '</div>';
+
+    var retry = document.getElementById('playerRetry');
+    if (retry) retry.addEventListener('click', function () { loadCurrentChannel(); });
+  }
+
+  function initPlayer(m3u8Url) {
+    if (!playbox) return;
+    if (!m3u8Url) {
+      renderPlayerError('无效的播放地址');
+      return;
+    }
+
+    showLoader('直播流加载中…');
+    playbox.innerHTML = '';
+
+    var encodedUrl = utf8ToB64(m3u8Url);
+    var iframe = document.createElement('iframe');
+    iframe.allowFullscreen = true;
+    iframe.setAttribute('allowfullscreen', 'true');
+    iframe.frameBorder = 'no';
+    iframe.scrolling = 'no';
+    iframe.title = '电视直播播放器';
+    iframe.style.height = '100%';
+    iframe.style.width = '100%';
+    iframe.src = 'https://jiexi.bot.cd/url/?url=' + encodedUrl;
+
+    iframe.addEventListener('load', hideLoader);
+
+    playbox.appendChild(iframe);
+
+    loaderTimer = setTimeout(hideLoader, 8000);
+  }
+
+  function loadCurrentChannel() {
+    if (currentChannel) currentChannel.textContent = '正在加载频道…';
+    showLoader('频道信息加载中…');
+
+    fetch('https://json.bingdou.cc/tv/?id=cctv13', { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('网络响应失败：' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var list = data && data.data && data.data.list;
+        var first = Array.isArray(list) ? list[0] : null;
+
+        if (!first || !first.play_url) {
+          throw new Error('无效的频道数据');
+        }
+
+        var name = data.name || 'CCTV-13';
+        if (currentChannel) currentChannel.textContent = '正在播放 - ' + name;
+        document.title = name + ' - 电视直播 - 冰豆直播';
+
+        initPlayer(first.play_url);
+      })
+      .catch(function (err) {
+        console.error('加载频道失败:', err);
+        if (currentChannel) currentChannel.textContent = '频道加载失败';
+        renderPlayerError(err.message || '频道加载失败，请稍后重试');
+      });
+  }
+
+  function loadChannelList(category, containerId, countId) {
+    var container = document.getElementById(containerId);
+    var countEl = countId ? document.getElementById(countId) : null;
+
+    if (!container) return;
+
+    container.className = 'skeleton';
+    container.innerHTML = '';
+    var skFrag = document.createDocumentFragment();
+    for (var s = 0; s < 10; s++) {
+      var sk = document.createElement('div');
+      sk.className = 'sk-item';
+      skFrag.appendChild(sk);
+    }
+    container.appendChild(skFrag);
+
+    if (countEl) countEl.hidden = true;
+
+    fetch('https://json.bingdou.cc/tv/list/?id=' + encodeURIComponent(category), { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('网络响应失败：' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var list = data && data.data && data.data.list;
+        if (!Array.isArray(list) || !list.length) {
+          renderListState(container, '暂无频道数据');
+          return;
+        }
+        renderChannels(container, list, countEl);
+      })
+      .catch(function (err) {
+        console.error('加载 ' + category + ' 失败:', err);
+        renderListState(container, '频道加载失败，请稍后重试', category, containerId, countId);
+      });
+  }
+
+  function renderChannels(container, list, countEl) {
+    container.className = 'channels playlist';
+    container.innerHTML = '';
+
+    var frag = document.createDocumentFragment();
+
+    list.forEach(function (item, i) {
+      var a = document.createElement('a');
+      a.className = 'channel';
+      a.href = './player/?id=' + encodeURIComponent(item.id);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.title = item.name || ('频道 ' + (i + 1));
+      a.style.animationDelay = Math.min(i * 18, 540) + 'ms';
+
+      var no = document.createElement('span');
+      no.className = 'channel-no';
+      no.textContent = String(i + 1);
+
+      var name = document.createElement('span');
+      name.className = 'channel-name';
+      name.textContent = item.name || ('频道 ' + (i + 1));
+
+      a.appendChild(no);
+      a.appendChild(name);
+      frag.appendChild(a);
+    });
+
+    container.appendChild(frag);
+
+    if (countEl) {
+      countEl.textContent = list.length + ' 个频道';
+      countEl.hidden = false;
+    }
+  }
+
+  function renderListState(container, message, category, containerId, countId) {
+    container.className = 'channels playlist';
+    container.innerHTML =
+      '<div class="state" style="grid-column:1/-1">' +
+        '<div class="state-icon">!</div>' +
+        '<p style="margin:0">' + escapeHtml(message) + '</p>' +
+        (category
+          ? '<button class="retry-btn" type="button">重新加载</button>'
+          : '') +
+      '</div>';
+
+    if (category) {
+      var retry = container.querySelector('.retry-btn');
+      if (retry) {
+        retry.addEventListener('click', function () {
+          loadChannelList(category, containerId, countId);
+        });
+      }
+    }
+
+    var countEl = countId ? document.getElementById(countId) : null;
+    if (countEl) countEl.hidden = true;
+  }
+
+  /* ==================== 启动 ==================== */
+  function initPage() {
+    loadCurrentChannel();
+
+    loadChannelList('zhongyang', 'zhongyangChannels', 'zhongyangCount');
+    loadChannelList('weishi', 'weishiChannels', 'weishiCount');
+    loadChannelList('difang', 'difangChannels', 'difangCount');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPage);
+  } else {
+    initPage();
+  }
+
+})();
+</script>
+<script async src="https://01a19506-d7a7-7916-b03b-49db37e91d0e.spst2.com/ustat.js"></script>
+</body>
+</html>
