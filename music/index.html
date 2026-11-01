@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>音乐聆听 - 冰豆直播</title>
+<meta name="Keywords" content="音乐,在线听歌,音乐播放器,音乐网站,排行榜,热门歌曲,经典老歌" />
+<meta name="description" content="海量音乐在线试听、新歌热歌在线首发、MV观看等，是互联网音乐播放和下载的优选。" />
+<meta name="theme-color" content="#070b14">
+<style>
+:root {--bg:#070b14;--surface:#0d1526;--border:rgba(120,170,255,.14);--border-strong:rgba(120,170,255,.30);--text:#e9f0ff;--muted:#93a5c4;--faint:#6f819f;--accent:#38bdf8;--accent-2:#22d3ee;--accent-3:#8b5cf6;--radius:18px;--header-h:68px;}
+*,*::before,*::after {box-sizing:border-box}
+html {scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body {margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body::before {content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(900px 520px at 10% -8%,rgba(56,189,248,.20),transparent 62%),radial-gradient(820px 520px at 92% -4%,rgba(139,92,246,.18),transparent 62%),radial-gradient(1000px 700px at 50% 112%,rgba(34,211,238,.10),transparent 65%);}
+img {max-width:100%;border:0}
+a {color:inherit}
+::selection {background:rgba(56,189,248,.35);color:#fff}
+.wrap {width:100%;max-width:1220px;margin:0 auto;padding:0 22px;}
+.site-header {position:sticky;top:0;z-index:100;background:rgba(7,11,20,.72);backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid rgba(120,170,255,.10);transition:box-shadow .3s ease,background .3s ease;}
+.site-header.scrolled {background:rgba(7,11,20,.92);box-shadow:0 12px 30px -18px rgba(0,0,0,.95);}
+.header-inner {display:flex;align-items:center;gap:22px;height:var(--header-h);position:relative;}
+.logo {display:inline-flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0;}
+.logo-mark {width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#38bdf8 0%,#3b82f6 55%,#8b5cf6 100%);box-shadow:0 8px 22px -8px rgba(56,189,248,.85),inset 0 1px 0 rgba(255,255,255,.35);flex-shrink:0;}
+.logo-mark svg {width:22px;height:22px;display:block}
+.logo-name {font-size:19px;font-weight:800;letter-spacing:.6px;color:#fff;white-space:nowrap;}
+.nav {display:flex;align-items:center;gap:2px;margin-left:auto;}
+.nav a {padding:9px 13px;border-radius:10px;font-size:14.5px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .2s,background .2s;}
+.nav a:hover,.nav a:focus-visible {color:#fff;background:rgba(56,189,248,.13);outline:none;}
+.header-cta {display:inline-flex;align-items:center;gap:7px;margin-left:12px;padding:9px 17px;border-radius:11px;font-size:14px;font-weight:600;color:#04121f;text-decoration:none;background:linear-gradient(135deg,#38bdf8,#22d3ee);box-shadow:0 10px 24px -12px rgba(56,189,248,.95);transition:transform .2s,box-shadow .2s;flex-shrink:0;}
+.header-cta:hover {transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(56,189,248,1);}
+.nav-toggle {display:none;margin-left:auto;width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.04);cursor:pointer;padding:0;position:relative;flex-shrink:0;}
+.nav-toggle span {position:absolute;left:50%;width:18px;height:2px;margin-left:-9px;border-radius:2px;background:#cfe0f7;transition:transform .28s ease,opacity .2s ease,top .28s ease;}
+.nav-toggle span:nth-child(1) {top:14px}
+.nav-toggle span:nth-child(2) {top:20px}
+.nav-toggle span:nth-child(3) {top:26px}
+.nav-toggle.active span:nth-child(1) {top:20px;transform:rotate(45deg)}
+.nav-toggle.active span:nth-child(2) {opacity:0}
+.nav-toggle.active span:nth-child(3) {top:20px;transform:rotate(-45deg)}
+main {flex:1 0 auto;padding-top:34px;padding-bottom:30px;}
+.page-head {margin-top:20px;margin-bottom:22px}
+.crumb {display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:.82rem;color:var(--faint);margin-bottom:14px;letter-spacing:.3px;}
+.crumb a {color:var(--muted);text-decoration:none;transition:color .2s;}
+.crumb a:hover {color:#7dd3fc}
+.crumb .slash {color:rgba(120,170,255,.35)}
+.page-title {display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:0;font-size:clamp(1.5rem,3.2vw,2rem);font-weight:800;letter-spacing:-.01em;color:#fff;}
+.page-title::before {content:"";width:5px;height:24px;border-radius:5px;background:linear-gradient(180deg,#38bdf8,#8b5cf6);box-shadow:0 0 14px rgba(56,189,248,.85);flex-shrink:0;}
+.page-sub {margin:10px 0 0;font-size:.92rem;color:var(--muted);letter-spacing:.2px;}
+.count-badge {display:inline-flex;align-items:center;padding:2px 11px;border-radius:999px;font-size:.76rem;font-weight:600;color:#7dd3fc;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.28);letter-spacing:.3px;vertical-align:middle;}
+.card {padding:22px 24px 24px;margin-bottom:20px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(19,30,52,.90),rgba(10,17,30,.90));border:1px solid var(--border);box-shadow:0 24px 48px -36px rgba(0,0,0,.95);transition:border-color .3s ease;}
+.card:hover {border-color:rgba(120,170,255,.26)}
+.card-head {display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:15px;border-bottom:1px solid rgba(120,170,255,.10);}
+.card-head h2 {position:relative;margin:0;padding-left:14px;font-size:1.02rem;font-weight:700;letter-spacing:.4px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.card-head h2::before {content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:17px;border-radius:4px;background:linear-gradient(180deg,#38bdf8,#8b5cf6);box-shadow:0 0 12px rgba(56,189,248,.85);}
+.card-head .hint {margin-left:auto;font-size:.78rem;color:var(--faint);letter-spacing:.3px;flex-shrink:0;}
+.player-card {padding:0;overflow:hidden}
+.player-head {display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid rgba(120,170,255,.10);background:rgba(255,255,255,.02);}
+.player-head h2 {margin:0;font-size:.98rem;font-weight:700;letter-spacing:.3px;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.live-dot {width:8px;height:8px;border-radius:50%;background:#22d3ee;box-shadow:0 0 10px #22d3ee;flex-shrink:0;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse {0%,100% {opacity:1;transform:scale(1)}
+50% {opacity:.45;transform:scale(.8)}
+}
+.player-stage {position:relative;width:100%;aspect-ratio:16 / 8;background:#000;overflow:hidden;}
+.player-stage iframe {position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
+.player-loader {position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(circle at 50% 45%,rgba(56,189,248,.12),rgba(7,11,20,.96) 70%);color:var(--muted);font-size:.88rem;letter-spacing:.3px;transition:opacity .4s ease,visibility .4s ease;}
+.player-loader.hidden {opacity:0;visibility:hidden;}
+.spinner {width:36px;height:36px;border-radius:50%;border:3px solid rgba(120,170,255,.18);border-top-color:#38bdf8;animation:spin .8s linear infinite;}
+@keyframes spin {to {transform:rotate(360deg)}
+}
+.group {margin-bottom:24px}
+.group:last-child {margin-bottom:0}
+.group-label {display:flex;align-items:center;gap:10px;margin-bottom:13px;font-size:.82rem;font-weight:600;letter-spacing:.6px;color:#7dd3fc;}
+.group-label .num {display:inline-flex;align-items:center;justify-content:center;min-width:1.8em;height:1.8em;padding:0 7px;border-radius:999px;font-size:.7rem;font-weight:700;letter-spacing:0;color:#7dd3fc;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.28);}
+.group-label::after {content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(56,189,248,.35),transparent);}
+.stations {display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px;}
+.station {display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 12px;border-radius:12px;font-size:14px;color:#c7d6ee;text-decoration:none;text-align:center;background:rgba(255,255,255,.035);border:1px solid rgba(120,170,255,.12);transition:color .22s,background .22s,border-color .22s,transform .22s,box-shadow .22s;-webkit-tap-highlight-color:transparent;animation:itemIn .4s cubic-bezier(.2,.7,.3,1) both;}
+.station:hover,.station:focus-visible {color:#fff;background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.52);transform:translateY(-2px);box-shadow:0 10px 22px -12px rgba(56,189,248,.95);outline:none;}
+.station:active {transform:translateY(0)}
+.station-icon {width:22px;height:22px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:rgba(56,189,248,.13);border:1px solid rgba(56,189,248,.28);color:#7dd3fc;font-size:8px;line-height:1;padding-left:2px;transition:background .22s,color .22s,border-color .22s;}
+.station:hover .station-icon {background:linear-gradient(135deg,#38bdf8,#22d3ee);border-color:transparent;color:#04121f;}
+.station-name {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+@keyframes itemIn {from {opacity:0;transform:translateY(10px)}
+to {opacity:1;transform:translateY(0)}
+}
+.site-footer {flex-shrink:0;padding:40px 0 46px;border-top:1px solid var(--border);background:linear-gradient(180deg,rgba(9,15,27,0),rgba(9,15,27,.85));text-align:center;}
+.footer-links {display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 18px;margin-bottom:16px;}
+.footer-links a {font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover {color:#7dd3fc}
+.footer-links .sep {width:1px;height:12px;background:rgba(120,170,255,.28);}
+.copyright {margin:0;font-size:.82rem;color:var(--faint);letter-spacing:.3px;}
+@media (max-width:1024px) {.nav {position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;align-items:stretch;gap:2px;margin:0;padding:10px 16px 18px;background:rgba(8,13,24,.985);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border);box-shadow:0 24px 40px -20px rgba(0,0,0,.9);}
+.nav.open {display:flex}
+.nav a {padding:12px 14px;font-size:15px;border-radius:11px;color:#d5e2f6;}
+.nav-toggle {display:block}
+.header-cta {display:none}
+}
+@media (max-width:560px) {.wrap {padding:0 16px}
+:root {--header-h:60px}
+.logo-mark {width:34px;height:34px;border-radius:10px}
+.logo-mark svg {width:19px;height:19px}
+.logo-name {font-size:17px}
+main {padding-top:24px;padding-bottom:22px}
+.page-head {margin-bottom:18px}
+.page-title {font-size:1.3rem}
+.page-title::before {height:20px;width:4px}
+.page-sub {font-size:.85rem}
+.crumb {font-size:.76rem;margin-bottom:10px}
+.card {padding:18px 16px 18px;border-radius:16px;margin-bottom:16px}
+.card-head {margin-bottom:14px;padding-bottom:13px}
+.card-head h2 {font-size:.96rem}
+.card-head .hint {display:none}
+.player-head {padding:13px 15px}
+.player-head h2 {font-size:.9rem}
+.player-stage {position:relative;width:100%;aspect-ratio:16 / 18;background:#000;overflow:hidden;}
+.group {margin-bottom:20px}
+.group-label {font-size:.78rem;margin-bottom:11px}
+.stations {grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:9px}
+.station {padding:10px 8px;font-size:13px;border-radius:11px;}
+.station-icon {width:20px;height:20px}
+.site-footer {padding:32px 0 38px}
+.footer-links .sep {display:none}
+}
+@media (prefers-reduced-motion:reduce) {*,*::before,*::after {animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body oncontextmenu="return false" onselectstart="return false">
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a href="../" class="logo" aria-label="冰豆音乐">
+      <span class="logo-mark">
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M897.536 264.704H655.36l142.848-145.408c10.752-10.752 10.24-28.16-0.512-38.912-10.752-10.752-28.16-10.24-38.912 0.512L578.56 264.704H448.512L267.776 80.896c-10.752-10.752-28.16-10.752-38.912-0.512-10.752 10.752-10.752 28.16-0.512 38.912l142.848 145.408H129.024c-55.296 0-100.864 45.056-100.864 100.864v481.792c0 55.296 45.056 100.864 100.864 100.864h768.512c55.296 0 100.864-45.056 100.864-100.864V365.568c0-55.808-45.056-100.864-100.864-100.864z m46.08 582.656c0 25.088-20.48 45.568-45.568 45.568H129.024c-25.088 0-45.568-20.48-45.568-45.568V365.568c0-25.088 20.48-45.568 45.568-45.568h768.512c25.088 0 45.568 20.48 45.568 45.568v481.792z" fill="#ffffff"/>
+          <path d="M653.312 582.656L415.744 445.44c-8.704-5.12-18.944-5.12-27.648 0-8.704 5.12-13.824 13.824-13.824 23.552v274.432c0 9.728 5.12 18.944 13.824 23.552 4.096 2.56 9.216 3.584 13.824 3.584 4.608 0 9.728-1.024 13.824-3.584l237.568-137.216c8.704-5.12 13.824-13.824 13.824-23.552s-5.12-18.944-13.824-23.552zM429.568 696.32v-179.2l155.136 89.6L429.568 696.32z" fill="#ffffff"/>
+        </svg>
+      </span>
+      <span class="logo-name">冰豆音乐</span>
+    </a>
+    <nav class="nav" id="mainNav">
+      <a href="../">首页</a>
+      <a href="../movie/">影视点播</a>
+      <a href="../huya/">聚合直播</a>
+      <a href="../tv/">电视直播</a>
+      <a href="../livechina/">景点直播</a>
+      <a href="../fm/">电台直播</a>
+      <a href="../music/">音乐聆听</a>
+      <a href="https://www.bingdou.vip/" rel="noopener">视频云播</a>
+      <a href="https://tao.bingdou.com.cn/" target="_blank" rel="noopener">精选福利</a>
+    </nav>
+    <a class="header-cta" href="https://down.bingdou.com.cn/f/1675875-17569909375199-81db27?p=bingdou"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>下载桌面端</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="展开菜单" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<main class="wrap">
+  <div class="page-head">
+    <nav class="crumb" aria-label="面包屑">
+      <a href="../">首页</a>
+      <span class="slash">/</span>
+      <span>音乐聆听</span>
+    </nav>
+    <h1 class="page-title">
+      音乐聆听
+      <span class="count-badge" id="countBadge" hidden>0 个分类</span>
+    </h1>
+    <p class="page-sub">排行榜 · 语种 · 风格 · 场景 · 心情，总有你想听的声音</p>
+  </div>
+  <section class="card player-card">
+    <div class="player-head">
+      <span class="live-dot"></span>
+      <h2>正在播放 · 云音乐</h2>
+    </div>
+    <div class="player-stage">
+      <div class="player-loader" id="playerLoader">
+        <span class="spinner"></span>
+        <span>音乐播放器加载中…</span>
+      </div>
+      <iframe id="playbox" src="./163/index.html" allowfullscreen="true" frameborder="no" scrolling="no" title="音乐播放器"></iframe>
+    </div>
+  </section>
+  <section class="card">
+    <div class="card-head">
+      <h2>音乐分类</h2>
+      <span class="hint">点击分类进入歌单</span>
+    </div>
+    <div id="groups"></div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="https://bingdou.cc/" target="_blank" rel="noopener">关于我们</a>
+      <span class="sep"></span>
+      <a href="https://api.bingdou.com.cn/qq/im/?qq=77696199" target="_blank" rel="noopener">联系我们</a>
+      <span class="sep"></span>
+      <a href="https://www.bingdou.com.cn/code/464.html" target="_blank" rel="noopener">直播接口</a>
+    </div>
+    <p class="copyright">&copy; 2012-<span id="year">2026</span> bingdou.live, All Rights Reserved.</p>
+  </div>
+</footer>
+<script>
+(function () {
+  'use strict';
+
+  var header = document.getElementById('siteHeader');
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('mainNav');
+  var yearEl = document.getElementById('year');
+
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.classList.toggle('active', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '收起菜单' : '展开菜单');
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  var onScroll = function () {
+    if (!header) return;
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  function escapeHtml(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+
+  var playbox = document.getElementById('playbox');
+  var playerLoader = document.getElementById('playerLoader');
+
+  if (playbox && playerLoader) {
+    var hideLoader = function () { playerLoader.classList.add('hidden'); };
+    playbox.addEventListener('load', hideLoader);
+    setTimeout(hideLoader, 8000);
+  }
+
+  var GROUPS = [
+    {
+      label: '排行榜',
+      items: [
+        { name: '飙升榜', type: 'playlist', id: '19723756' },
+        { name: '新歌榜', type: 'playlist', id: '3779629' },
+        { name: '原创榜', type: 'playlist', id: '2884035' },
+        { name: '热歌榜', type: 'playlist', id: '3778678' }
+      ]
+    },
+    {
+      label: '语种',
+      items: [
+        { name: '华语', type: 'list', id: '华语' },
+        { name: '欧美', type: 'list', id: '欧美' },
+        { name: '日语', type: 'list', id: '日语' },
+        { name: '韩语', type: 'list', id: '韩语' },
+        { name: '粤语', type: 'list', id: '粤语' }
+      ]
+    },
+    {
+      label: '风格',
+      items: [
+        { name: '流行', type: 'list', id: '流行' },
+        { name: '摇滚', type: 'list', id: '摇滚' },
+        { name: '民谣', type: 'list', id: '民谣' },
+        { name: '电子', type: 'list', id: '电子' },
+        { name: '舞曲', type: 'list', id: '舞曲' },
+        { name: '说唱', type: 'list', id: '说唱' },
+        { name: '轻音乐', type: 'list', id: '轻音乐' },
+        { name: '爵士', type: 'list', id: '爵士' },
+        { name: '乡村', type: 'list', id: '乡村' },
+        { name: 'R&B/Soul', type: 'list', id: 'R&B/Soul' },
+        { name: '古典', type: 'list', id: '古典' },
+        { name: '民族', type: 'list', id: '民族' },
+        { name: '英伦', type: 'list', id: '英伦' },
+        { name: '金属', type: 'list', id: '金属' },
+        { name: '朋克', type: 'list', id: '朋克' },
+        { name: '蓝调', type: 'list', id: '蓝调' },
+        { name: '雷鬼', type: 'list', id: '雷鬼' },
+        { name: '世界音乐', type: 'list', id: '世界音乐' },
+        { name: '拉丁', type: 'list', id: '拉丁' },
+        { name: 'New Age', type: 'list', id: 'NewAge' },
+        { name: '古风', type: 'list', id: '古风' },
+        { name: '后摇', type: 'list', id: '后摇' },
+        { name: 'Bossa Nova', type: 'list', id: 'BossaNova' }
+      ]
+    },
+    {
+      label: '场景',
+      items: [
+        { name: '清晨', type: 'list', id: '清晨' },
+        { name: '夜晚', type: 'list', id: '夜晚' },
+        { name: '学习', type: 'list', id: '学习' },
+        { name: '工作', type: 'list', id: '工作' },
+        { name: '午休', type: 'list', id: '午休' },
+        { name: '下午茶', type: 'list', id: '下午茶' },
+        { name: '地铁', type: 'list', id: '地铁' },
+        { name: '驾车', type: 'list', id: '驾车' },
+        { name: '运动', type: 'list', id: '运动' },
+        { name: '旅行', type: 'list', id: '旅行' },
+        { name: '散步', type: 'list', id: '散步' },
+        { name: '酒吧', type: 'list', id: '酒吧' }
+      ]
+    },
+    {
+      label: '心情',
+      items: [
+        { name: '怀旧', type: 'list', id: '怀旧' },
+        { name: '清新', type: 'list', id: '清新' },
+        { name: '浪漫', type: 'list', id: '浪漫' },
+        { name: '伤感', type: 'list', id: '伤感' },
+        { name: '治愈', type: 'list', id: '治愈' },
+        { name: '放松', type: 'list', id: '放松' },
+        { name: '孤独', type: 'list', id: '孤独' },
+        { name: '感动', type: 'list', id: '感动' },
+        { name: '兴奋', type: 'list', id: '兴奋' },
+        { name: '快乐', type: 'list', id: '快乐' },
+        { name: '安静', type: 'list', id: '安静' },
+        { name: '思念', type: 'list', id: '思念' }
+      ]
+    },
+    {
+      label: '主题',
+      items: [
+        { name: '综艺', type: 'list', id: '综艺' },
+        { name: '影视原声', type: 'list', id: '影视原声' },
+        { name: 'ACG', type: 'list', id: 'ACG' },
+        { name: '儿童', type: 'list', id: '儿童' },
+        { name: '校园', type: 'list', id: '校园' },
+        { name: '游戏', type: 'list', id: '游戏' }
+      ]
+    },
+    {
+      label: '年代',
+      items: [
+        { name: '70后', type: 'list', id: '70后' },
+        { name: '80后', type: 'list', id: '80后' },
+        { name: '90后', type: 'list', id: '90后' },
+        { name: '00后', type: 'list', id: '00后' }
+      ]
+    },
+    {
+      label: '乐器',
+      items: [
+        { name: '吉他', type: 'list', id: '吉他' },
+        { name: '钢琴', type: 'list', id: '钢琴' },
+        { name: '器乐', type: 'list', id: '器乐' }
+      ]
+    },
+    {
+      label: '综合',
+      items: [
+        { name: '网络歌曲', type: 'list', id: '网络歌曲' },
+        { name: 'KTV', type: 'list', id: 'KTV' },
+        { name: '经典', type: 'list', id: '经典' },
+        { name: '翻唱', type: 'list', id: '翻唱' },
+        { name: '榜单', type: 'list', id: '榜单' }
+      ]
+    }
+  ];
+
+  var groupsEl = document.getElementById('groups');
+  var countBadge = document.getElementById('countBadge');
+
+  function buildUrl(item) {
+    if (item.type === 'playlist') {
+      return './playlist/?id=' + encodeURIComponent(item.id);
+    }
+    return './list/?cat=' + encodeURIComponent(item.id);
+  }
+
+  function renderGroups() {
+    if (!groupsEl) return;
+
+    var frag = document.createDocumentFragment();
+    var total = 0;
+
+    GROUPS.forEach(function (group) {
+      total += group.items.length;
+
+      var wrap = document.createElement('div');
+      wrap.className = 'group';
+
+      var label = document.createElement('div');
+      label.className = 'group-label';
+      label.innerHTML =
+        '<span class="num">' + group.items.length + '</span>' +
+        escapeHtml(group.label);
+
+      var grid = document.createElement('div');
+      grid.className = 'stations';
+
+      group.items.forEach(function (item, i) {
+        var a = document.createElement('a');
+        a.className = 'station';
+        a.href = buildUrl(item);
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.title = item.name;
+        a.style.animationDelay = Math.min(i * 20, 480) + 'ms';
+
+        var icon = document.createElement('span');
+        icon.className = 'station-icon';
+        icon.textContent = '♪';
+
+        var name = document.createElement('span');
+        name.className = 'station-name';
+        name.textContent = item.name;
+
+        a.appendChild(icon);
+        a.appendChild(name);
+        grid.appendChild(a);
+      });
+
+      wrap.appendChild(label);
+      wrap.appendChild(grid);
+      frag.appendChild(wrap);
+    });
+
+    groupsEl.innerHTML = '';
+    groupsEl.appendChild(frag);
+
+    if (countBadge) {
+      countBadge.textContent = total + ' 个分类';
+      countBadge.hidden = false;
+    }
+  }
+
+  renderGroups();
+
+})();
+</script>
+<script async src="https://01a19506-d7a7-7916-b03b-49db37e91d0e.spst2.com/ustat.js"></script>
+</body>
+</html>
